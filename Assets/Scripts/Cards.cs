@@ -19,7 +19,7 @@ public class Cards:MonoBehaviour
 {
    
     public Queue<CardMove>cardMovement;
-    [SerializeField]private List<CardMove> cardMovementList;
+    [SerializeField]public List<CardMove> cardMovementList;
     [SerializeField] public maskType mask;
     [SerializeField] public dir direction;
     public Sprite cardSprite;
