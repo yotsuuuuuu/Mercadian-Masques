@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,13 @@ public class ChunkLevelData
     public Vector3Int position;
 }
 
+public struct CardData
+{
+    public maskType maskType;
+    public Queue<CardMove> moveList;
+}
+
+
 public class GameManager : MonoBehaviour
 {
     private StateMachine stateMachine;
@@ -31,12 +39,7 @@ public class GameManager : MonoBehaviour
     int boardSizeZ = 9;
     int boardSizeY = 2; 
 
-    public struct CardData
-    {
-        public maskType maskType;
-        public Queue<CardMove> moveList;
-    }
-
+ 
     private BoardManager board;
     private HandManager hand;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -108,31 +111,124 @@ public class GameManager : MonoBehaviour
     }
     bool CardPlayed()
     {
-        return isProcessingCard;
+        return movementInstructions.Count != 0 ;
     }
+
+    private Queue<KeyValuePair<GlobalDirection, int>> movementInstructions;
+    private bool ProcessingDeer = false;
     public void AddCard(maskType mask)
     {
         // TODO : waiting on Board 
         // NEED TO INFER MOVE LIST TO FEED TO BOARD
         // all are actions but snake
-       isProcessingCard = true;
+        movementInstructions.Clear();
+
+        switch (mask)
+        {
+            case maskType.Bull:
+                Queue<CardMove> bullMoves = new Queue<CardMove>();
+                bullMoves.Enqueue(new CardMove { direction = CardDir.Foward, amount = 1  });
+                movementInstructions = ConvertCardMoveToBoardMoves(bullMoves);
+                break;
+            case maskType.Frog:
+                Queue<CardMove> frogMoves = new Queue<CardMove>();
+                frogMoves.Enqueue(new CardMove { direction = CardDir.Up, amount = 1  });
+                frogMoves.Enqueue(new CardMove { direction = CardDir.Foward, amount = 2  });
+                frogMoves.Enqueue(new CardMove { direction = CardDir.Down, amount = 1 });
+                movementInstructions = ConvertCardMoveToBoardMoves(frogMoves);
+                break;
+            case maskType.Deer:
+                ProcessingDeer = true;
+                Queue<CardMove> deerMoves = new Queue<CardMove>();
+                deerMoves.Enqueue(new CardMove { direction = CardDir.Foward, amount = 1  });
+                movementInstructions = ConvertCardMoveToBoardMoves(deerMoves);
+                break;
+            case maskType.Bird:
+                player.FlyingEffectCounter += 2;
+                Queue<CardMove> birdMoves = new Queue<CardMove>();
+                birdMoves.Enqueue(new CardMove { direction = CardDir.Up, amount = 1  });
+                movementInstructions = ConvertCardMoveToBoardMoves(birdMoves);
+                break;
+            case maskType.Snake:
+                player.SnakeEffectActive = true;
+                movementInstructions.Clear();
+                break;
+        }
+
+        
     }
+
     public void AddCard(Queue<CardMove> movelist)
     {
         // TODO : waiting on Board 
         // check  current player orientation
         // ACTION ALL
+        // createa movement instruction base on the player orientatoin
+        // store it to be used in the processing state
+        // idealy 2 foward , 2 left ,2 left with player facing north  should map to 2 north, 2 west, 2 south.
+        movementInstructions.Clear();
+        movementInstructions = ConvertCardMoveToBoardMoves(movelist);
 
-        isProcessingCard = true;
+
+    }
+
+    public Queue<KeyValuePair<GlobalDirection, int>> ConvertCardMoveToBoardMoves(Queue<CardMove> moveList) {
+        Queue<KeyValuePair<GlobalDirection, int>> list = new Queue<KeyValuePair<GlobalDirection, int>>();
+        GlobalDirection CurrentPlayerDir = player.currentDir;
+        int moveMultiplier = (player.SnakeEffectActive) ? 2 : 1;
+        player.SnakeEffectActive = false;
+        if (player.FlyingEffectCounter > 0)
+        {
+            player.FlyingEffectCounter--;
+        }
+        while (moveList.Count > 0)
+        {
+            CardMove move = moveList.Dequeue();
+            GlobalDirection globalDirection = MaptoRelativetoWorld(CurrentPlayerDir, move.direction);
+            list.Enqueue(new KeyValuePair<GlobalDirection, int>(globalDirection, move.amount * moveMultiplier));
+            CurrentPlayerDir = globalDirection;
+        }
+
+        return list;
+
+    }
+
+
+    GlobalDirection MaptoRelativetoWorld(GlobalDirection currentDir, CardDir moveDir)
+    {
+
+        if (moveDir == CardDir.Up)
+            return GlobalDirection.Up;
+        if (moveDir == CardDir.Down)
+            return GlobalDirection.Down;
+
+        int facing = (int)currentDir;
+        int offset = moveDir switch
+        {
+            CardDir.Foward => 0,
+            CardDir.Right => 1,
+            CardDir.Back => 2,
+            CardDir.Left => 3,
+            _ => 0
+        };
+
+        int WorldDir = (facing + offset) % 4;
+        return (GlobalDirection)WorldDir;
     }
 
     // TODO:: WAITING ON BOARD FOR gET CHUNK AT POSITION
     // NEED PLAYER OBJECT WITH GIRD POSITION
     // 
-    public bool HasPlayerWon() { return true; }
+    public bool HasPlayerWon() { return (player.CurrentChunkData.type == ChunkType.GOAL); }
     // TODO : WAITING ON BOARD FOR gET CHUNK AT POSITION
     // NEED ALSO TO CHECK HAND SIZE
-    public bool HasPlayerLost() { return false; }
+    public bool HasPlayerLost() { 
+        if(hand.cardsInHand.Count == 0 && player.CurrentChunkData.type != ChunkType.GOAL)
+        {
+            return true;
+        }
+        return false; 
+    }
 
     public void ResetLevel() {
         Debug.Log("Resetting Level");
