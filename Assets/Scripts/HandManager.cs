@@ -38,17 +38,17 @@ public class HandManager : MonoBehaviour
     }
 
 
-    private void AddCardsToHand(List<GameObject> cardslist_)
+    private void AddCardsToHand(List<CardData> cardslist_)
     {
         cardAmount = cardslist_.Count;
        
        for(int i = 0;cardslist_.Count > i;i++)
         {
-            GameObject newCardGO = Instantiate(cardPrefab, handTransform.position, Quaternion.identity, handTransform);
-            cardsInHand.Add(newCardGO);
-            Card cardUI = newCardGO.GetComponent<Card>();
+            GameObject cardObject = Instantiate(cardPrefab, handTransform.position, Quaternion.identity, handTransform);
+            cardsInHand.Add(cardObject);
+            Card cardData = cardObject.GetComponent<Card>();
 
-            cardsInHandData.Add(cardUI);
+            cardsInHandData.Add(cardData);
         }
         UpdateHandVisual();
         
