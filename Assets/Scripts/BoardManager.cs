@@ -16,7 +16,7 @@ public class BoardManager : MonoBehaviour
         Initialize(new int[boardSizeX, boardSizeY, boardSizeZ]);
     }
 
-    private List<Chunk> CheckMovement(Queue<KeyValuePair<dir, int>> movementInstructions, Vector3Int playerPos)
+    private List<Chunk> CheckMovement(Queue<KeyValuePair<GlobalDirection, int>> movementInstructions, Vector3Int playerPos)
     {
         // x: east-west +/-
         // y: height level
@@ -24,24 +24,24 @@ public class BoardManager : MonoBehaviour
         List<Chunk> potentialChunks = new List<Chunk>();
         while (movementInstructions.Count > 0)
         {
-            KeyValuePair<dir, int> instruction = movementInstructions.Dequeue();
+            KeyValuePair<GlobalDirection, int> instruction = movementInstructions.Dequeue();
             for (int i = 0; i < instruction.Value; i++) // go one step at a time
             {
                 switch (instruction.Key)
                 {
-                    case dir.north:
+                    case GlobalDirection.North:
                         playerPos.z++;
                         //z++;
                         break;
-                    case dir.east:
+                    case GlobalDirection.East:
                         playerPos.x++; ;
                         //x++;
                         break;
-                    case dir.sout:
+                    case GlobalDirection.South:
                         playerPos.z--;
                         //z--;
                         break;
-                    case dir.west:
+                    case GlobalDirection.West:
                         playerPos.x--;
                         //x--;
                         break;

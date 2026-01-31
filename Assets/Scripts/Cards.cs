@@ -7,12 +7,13 @@ using static Cards;
 
 public enum maskType { Bull, Frog, Deer, Bird, Snake };
 
-public enum dir { forward, right, back, left,up,down };
+public enum GlobalDirection { North, East, South, West, Up, Down };
+public enum CardDir { Foward, Right, Back,  Left, Up,Down };
 
 
 [System.Serializable] public struct CardMove
 {
-    public dir direction;
+    public CardDir direction;
     public int amount;
 }
 public class Cards:MonoBehaviour
@@ -21,7 +22,7 @@ public class Cards:MonoBehaviour
     public Queue<CardMove>cardMovement;
     [SerializeField]public List<CardMove> cardMovementList;
     [SerializeField] public maskType mask;
-    [SerializeField] public dir direction;
+    [SerializeField] public CardDir direction;
     public Sprite cardSprite;
     public Image[] typeImages;
 
