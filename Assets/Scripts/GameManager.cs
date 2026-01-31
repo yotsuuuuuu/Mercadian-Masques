@@ -1,16 +1,24 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
 public class GameManager : MonoBehaviour
 {
     private StateMachine stateMachine;
-
+    public bool isProcessingCard;
+    [SerializeField] private GameObject boardManager;
+    [SerializeField] private GameObject handManager;
+    private BoardManager board;
+    private HandManager hand;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        stateMachine = new StateMachine();
+        board = boardManager.GetComponent<BoardManager>();
+        hand = handManager.GetComponent<HandManager>();
+        isProcessingCard = false;
 
+        stateMachine = new StateMachine();
         IdleState idel = new IdleState(this);
         ProcessingState processing = new ProcessingState(this);
         CheckPLayerState playerState = new CheckPLayerState(this);
@@ -31,6 +39,8 @@ public class GameManager : MonoBehaviour
     {
         stateMachine.Update();
     }
+    // TODO : IMPLEMENT PLAYER CHECK LOGIC
+    // IF  PLAYER 
     bool PlayerCheck() 
     {
         return true;
@@ -41,6 +51,33 @@ public class GameManager : MonoBehaviour
     }
     bool CardPlayed()
     {
-        return true;
+        return isProcessingCard;
     }
+    public void AddCard(maskType mask)
+    {
+        // TODO : waiting on Board 
+        // NEED TO INFER MOVE LIST TO FEED TO BOARD
+        // all are actions but snake
+       isProcessingCard = true;
+    }
+    public void AddCard(Queue<CardMove> movelist)
+    {
+        // TODO : waiting on Board 
+        // ACTION ALL
+
+        isProcessingCard = true;
+    }
+
+    // TODO:: WAITING ON BOARD FOR gET CHUNK AT POSITION
+    // NEED PLAYER OBJECT WITH GIRD POSITION
+    // 
+    public bool HasPlayerWon() { return true; }
+    // TODO : WAITING ON BOARD FOR gET CHUNK AT POSITION
+    // NEED ALSO TO CHECK HAND SIZE
+    public bool HasPlayerLost() { return false; }
+
+    //TODO :  IMPLEMENT NOT WAITING ON ANYTHING
+    public void ResetLevel() { }
+    public void LoadNextLevel() { }
+
 }

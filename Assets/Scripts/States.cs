@@ -82,6 +82,7 @@ public class IdleState : State
     public override void Enter()
     {
         Debug.Log("Enter Idle State");
+        gameManager.isProcessingCard = false;
     }
     public override void Exit()
     {
@@ -92,6 +93,16 @@ public class IdleState : State
     {
         Debug.Log("Update Idle State");
         // idel should check if player has won if not  wait for next card.
+
+        // if player has won
+        // call to next level or end game
+        // if player has has lost
+        // call to restart level
+        if (gameManager.HasPlayerWon())
+            gameManager.LoadNextLevel();
+        
+        if(gameManager.HasPlayerLost())
+            gameManager.ResetLevel();
     }
 }
 
