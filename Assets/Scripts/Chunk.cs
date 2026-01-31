@@ -16,7 +16,8 @@ public class Chunk : MonoBehaviour{
 
 
     [SerializeField] int chunksize = 5; // size of the chunnk (square so 16x16)
-    //[SerializeField] Vector3 centrePos; //  maybe not necessary
+    [SerializeField] Vector3 worldPosition; //  maybe not necessary
+    Vector3Int gridIndex;
     [SerializeField] ChunkType chunkType;
     [SerializeField] GameObject meshObject;
 
@@ -33,6 +34,12 @@ public class Chunk : MonoBehaviour{
         Debug.Log("X:" + x + " Y:" + y + " Z:" + z);
         Debug.Log("Chunksize:" + chunksize);
         Debug.Log("Chunk position set to " + transform.position);
+
+        //if (x == 0 && z == 0)
+        //{
+        //    var meshRenderer = meshObject.GetComponent<MeshRenderer>();
+        //    meshRenderer.enabled = false;
+        //}
     }
 
     public void SetChunkType(ChunkType type_)

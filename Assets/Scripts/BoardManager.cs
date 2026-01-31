@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -7,15 +8,70 @@ public class BoardManager : MonoBehaviour
     int boardSizeZ = 9;
     int boardSizeY = 2; // height levels
 
+    Chunk[,,] board;
+
     [SerializeField] Chunk chunkPrefab;
     private void Start()
     {
         Initialize(new int[boardSizeX, boardSizeY, boardSizeZ]);
     }
 
+    private List<Chunk> CheckMovement(Queue<KeyValuePair<dir, int>> movementInstructions, Vector3Int playerPos)
+    {
+        // x: east-west +/-
+        // y: height level
+        // z: north-south +/-
+        List<Chunk> potentialChunks = new List<Chunk>();
+        while (movementInstructions.Count > 0)
+        {
+            KeyValuePair<dir, int> instruction = movementInstructions.Dequeue();
+            for (int i = 0; i < instruction.Value; i++) // go one step at a time
+            {
+                switch (instruction.Key)
+                {
+                    case dir.north:
+                        playerPos.z++;
+                        //z++;
+                        break;
+                    case dir.east:
+                        playerPos.x++; ;
+                        //x++;
+                        break;
+                    case dir.sout:
+                        playerPos.z--;
+                        //z--;
+                        break;
+                    case dir.west:
+                        playerPos.x--;
+                        //x--;
+                        break;
+                    //case dir.up:
+                    //    playerPos.y++;
+                    //    break;
+                    //case dir.down:
+                    //    playerPos.y--;
+                    //    break;
+                    default:
+                        break;
+                }
+                // exception handling for OOB
+                if (playerPos.x < 0 || playerPos.x >= boardSizeX ||
+                    playerPos.y < 0 || playerPos.y >= boardSizeY ||
+                    playerPos.z < 0 || playerPos.z >= boardSizeZ)
+                {
+                    Debug.Log("Out of Bounds Movement Detected");
+                    return potentialChunks;
+                }
+                potentialChunks.Add(board[playerPos.x, playerPos.y, playerPos.z]);
+
+            }
+        }
+            return potentialChunks;
+    }
+
     void Initialize(int[,,] chunkInfoArray)
     {
-        Chunk[,,] board = new Chunk[boardSizeX, boardSizeY, boardSizeZ];
+        board = new Chunk[boardSizeX, boardSizeY, boardSizeZ];
         int[,,] chunkInfosArray = new int[boardSizeX, boardSizeY, boardSizeZ];
 
         for (int y = 0; y < boardSizeY; y++)
