@@ -46,7 +46,6 @@ GameObject:
   m_Component:
   - component: {fileID: 301859152580706014}
   - component: {fileID: 1050415835885328223}
-  - component: {fileID: 6132739392794348388}
   m_Layer: 0
   m_Name: card
   m_TagString: Untagged
@@ -64,7 +63,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 8, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6756903534025685566}
@@ -89,19 +88,6 @@ MonoBehaviour:
   direction: 0
   cardSprite: {fileID: 0}
   typeImages: []
---- !u!114 &6132739392794348388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601633715659280233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4018cf20ae79f7b47b59fcfa14b6411c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  hoverLift: 40
 --- !u!1 &2349432942897796966
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,7 +152,7 @@ RectTransform:
   m_GameObject: {fileID: 3102614644995099429}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6243406453809650545}
@@ -178,7 +164,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 3.5, y: 3.5}
+  m_SizeDelta: {x: 2.5, y: 3.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3594477631865688550
 Canvas:
@@ -197,7 +183,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -544,7 +530,7 @@ GameObject:
   - component: {fileID: 2809757444627019027}
   - component: {fileID: 8647159470352159509}
   m_Layer: 0
-  m_Name: cardImage
+  m_Name: cardBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -567,7 +553,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2.5, y: 3}
+  m_SizeDelta: {x: 1310.72, y: 1310.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2809757444627019027
 CanvasRenderer:
@@ -597,7 +583,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a75b10a10c157df4ab0e8dbc9facdb52, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f312f16cd74944c48ba0c36822972b9e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -605,5 +591,5 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
-  m_UseSpriteMesh: 0
+  m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
