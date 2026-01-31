@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static Cards;
+using static Card;
 
 
 
@@ -16,7 +16,7 @@ public enum CardDir { Foward, Right, Back,  Left, Up,Down };
     public CardDir direction;
     public int amount;
 }
-public class Cards:MonoBehaviour
+public class Card:MonoBehaviour
 {
    
     public Queue<CardMove>cardMovement;

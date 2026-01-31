@@ -7,64 +7,79 @@ public class HandManager : MonoBehaviour
     [SerializeField] public GameObject cardPrefab;
     public Transform handTransform;
     public int handsize;
-    public float spread = 50.0f;
-    float spacing = 100;
-    float vspacing = 100;
-    public List<Cards> cardsInHand = new List<Cards>();
-    public List<Cards> cardstest = new List<Cards>();
+    public float spread = 5.0f;
+    public float spacing = -100;
+    public float vspacing = 100;
+    public List<GameObject> cardsInHand = new List<GameObject>();
+    public List<Card> cardsInHandData = new List<Card>();
+    public List<GameObject> cardstest = new List<GameObject>();
    
     int cardAmount;
     bool processing;
 
     private void Start()
     {
-        cardstest.Add(cardPrefab.GetComponent<Cards>());
-        cardstest.Add(cardPrefab.GetComponent<Cards>());
-        AddCardsToHand(cardstest);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
 
-        
+
+        //AddCardsToHand(cardstest);
+
+    }
+
+    private void Update()
+    {
+        UpdateHandVisual();   
     }
 
 
-
-
-    private void AddCardsToHand(List<Cards> cardslist_)
+    private void AddCardsToHand(List<GameObject> cardslist_)
     {
         cardAmount = cardslist_.Count;
        
        for(int i = 0;cardslist_.Count > i;i++)
         {
-            GameObject newCardGO = Instantiate(cardPrefab, handTransform.position,Quaternion.identity,handTransform);
-            Cards cardUI = newCardGO.GetComponent<Cards>();
+            GameObject newCardGO = Instantiate(cardPrefab, handTransform.position, Quaternion.identity, handTransform);
+            cardsInHand.Add(newCardGO);
+            Card cardUI = newCardGO.GetComponent<Card>();
 
-            cardUI.mask = cardslist_[i].mask;
-            cardUI.cardMovement = cardslist_[i].cardMovement;
-
-            cardsInHand.Add(cardUI);
+            cardsInHandData.Add(cardUI);
         }
         UpdateHandVisual();
         
     }
     private void UpdateHandVisual()
     {
-        cardAmount = cardsInHand.Count;
-        if(cardAmount == 1)
+        int cardCount = cardsInHand.Count;
+        if (cardCount == 0)
         {
-            cardsInHand[0].transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            cardsInHand[0].transform.localRotation = Quaternion.Euler(0, 0, 0);
             cardsInHand[0].transform.localPosition = new Vector3(0f, 0f, 0f);
             return;
         }
-        for (int i = 0; i < cardAmount; i++)
+
+        for (int i = 0; i < cardCount; i++)
         {
-            float rotationAngle = (spread * (i - (cardAmount - 1) / 2f));
-            cardsInHand[i].transform.localRotation = Quaternion.Euler(0f, 0f, rotationAngle);
+            float rotationAngle = (spread * (i - (cardCount - 1) / 2f));
+            cardsInHand[i].transform.localRotation = Quaternion.Euler(0, 0, rotationAngle);
 
-            //float horizontalOffset = (spacing * (i - (cardAmount - 1) / 2f));
+            float horizontalOffset = spacing * (i - (cardCount - 1) / 2f);
+            float normalizedPosition = (2f * i) / (cardCount - 1) - 1f; // Normalize between -1 and 1
+            float verticalOffset = vspacing * (1 - normalizedPosition * normalizedPosition); // More offset towards the center
 
-            //float normalizedpos = (2f * i / (cardAmount - 1) - 1f);
-            //float verticlOffset = vspacing * (i - normalizedpos*normalizedpos);
-            //cardsInHand[i].transform.localPosition = new Vector3(horizontalOffset, verticlOffset, 0f);
+            // set card position
+            cardsInHand[i].transform.localPosition = new Vector3(horizontalOffset, verticalOffset - 450, 0f);
         }
     }
     
+    public int GetNumCards()
+    {
+        return cardsInHand.Count;
+    }
+
 }
