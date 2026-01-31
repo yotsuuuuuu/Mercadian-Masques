@@ -82,6 +82,7 @@ public class IdleState : State
     {
         Debug.Log("Enter Idle State");
         gameManager.isProcessingCard = false;
+        gameManager.state = GameManagerState.IDLE;
     }
     public override void Exit()
     {
@@ -112,6 +113,43 @@ public class ProcessingState : State
     public override void Enter()
     {
         Debug.Log("Enter Processing State");
+        gameManager.state = GameManagerState.PROCESSING;
+        gameManager.isProcessingCard = true;
+        gameManager.playerpath.Clear();
+        if (gameManager.ProcessingDeer)
+        {
+            List<Chunk> possiblePath = new List<Chunk>();
+            var currentPos = gameManager.player.CurrentChunkData.position;
+            bool isValidMove = true;
+            while (isValidMove)
+            {
+                possiblePath.AddRange(gameManager.board.CheckMovement(gameManager.movementInstructions, currentPos));
+                Chunk possibleChunk = possiblePath[possiblePath.Count - 1];
+                if (possibleChunk == null || possibleChunk.GetChunkType() == ChunkType.ROCK)
+                {
+                    possiblePath.Clear();
+                    isValidMove = false;
+                    continue;
+                }
+                ChunkType type = possibleChunk.GetChunkType();
+                if (type == ChunkType.HEDGE || type == ChunkType.AIR_HEDGE)
+                {
+                   // currentPos = possibleChunk.
+                    continue;
+                }
+                else
+                {
+                    isValidMove = false;
+                }
+
+            }
+
+           // gameManager.player.Move(possiblePath);
+        }
+        else
+        {
+            //send instsructoins to player to move
+        }
     }
     public override void Exit()
     {
@@ -130,6 +168,7 @@ public class CheckPLayerState : State
     public override void Enter()
     {
         Debug.Log("Enter CheckPLayer State");
+        gameManager.state = GameManagerState.CHECKPLAYER;
     }
     public override void Exit()
     {

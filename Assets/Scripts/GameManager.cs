@@ -23,6 +23,13 @@ public struct CardData
     public Queue<CardMove> moveList;
 }
 
+public enum  GameManagerState
+{
+    IDLE,
+    PROCESSING,
+    CHECKPLAYER
+}
+
 
 public class GameManager : MonoBehaviour
 {
@@ -32,24 +39,25 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject handManager;
     [SerializeField] public LevelCardDataResource CardsData;
     [SerializeField] public LevelDataResource ChunkData;
-    [SerializeField] private Player player;
-    private List<CardData> ListofCardData;
-    
+    [SerializeField] public Player player;
+   
     int boardSizeX = 9; // default values to for the board
     int boardSizeZ = 9;
-    int boardSizeY = 2; 
+    int boardSizeY = 2;
 
+    public GameManagerState state;
  
-    private BoardManager board;
+    public BoardManager board { get; private set; }
     private HandManager hand;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
         board = boardManager.GetComponent<BoardManager>();
-        //hand = handManager.GetComponent<HandManager>();
-        ListofCardData = PopulateCardData(CardsData.ListOfCards);
-        //board.Initilize(ArrayofChunks(ChunkData.chunks), boardSizeX, boardSizeY, boardSizeZ);
+        hand = handManager.GetComponent<HandManager>();
+        //hand.AddCardsToHand( PopulateCardData(CardsData.ListOfCards));
+        board.Initialize(ArrayofChunks(ChunkData.chunks), boardSizeX, boardSizeY, boardSizeZ);
+
 
         isProcessingCard = false;
 
@@ -59,40 +67,16 @@ public class GameManager : MonoBehaviour
         CheckPLayerState playerState = new CheckPLayerState(this);
 
         stateMachine.SetState(idel);
-
+        
 
         stateMachine.AddTransitions(idel, new TransitonState(() => CardPlayed(), processing));
         //stateMachine.AddTransitions(idel, new TransitonState(() => !CardPlayed(), idel));
-        stateMachine.AddTransitions(processing, new TransitonState(() => ProcessingCard(), playerState));
+        stateMachine.AddTransitions(processing, new TransitonState(() => !ProcessingCard(), playerState));
         //stateMachine.AddTransitions(processing, new TransitonState(() => !ProcessingCard(), processing));
         stateMachine.AddTransitions(playerState, new TransitonState(() => PlayerCheck(), idel));
         stateMachine.AddTransitions(playerState, new TransitonState(() => !PlayerCheck(), processing));
     }
 
-    private int[,,] ArrayofChunks(List<ChunkLevelData> chunks)
-    {
-        int[,,] array = new int[boardSizeX, boardSizeY, boardSizeZ];
-        for(int i = 0; i < chunks.Count; i++)
-        {
-            Vector3Int pos = chunks[i].position;
-            array[pos.x, pos.y, pos.z] = (int)chunks[i].type;
-        }
-
-        return array;
-    }
-
-    private List<CardData> PopulateCardData(List<CardLevelData> listOfCards)
-    {
-        List<CardData> data = new List<CardData>();
-        for(int i  = 0; i < listOfCards.Count; i++)
-        {
-            CardData cardData = new CardData();
-            cardData.maskType = listOfCards[i].maskType;
-            cardData.moveList = new Queue<CardMove>(listOfCards[i].moveList);
-            data.Add(cardData);
-        }
-        return data;
-    }
 
     // Update is called once per frame
     void Update()
@@ -107,20 +91,19 @@ public class GameManager : MonoBehaviour
     }
     bool ProcessingCard()
     {
-        return true;
+        return isProcessingCard;
     }
     bool CardPlayed()
     {
         return movementInstructions.Count != 0 ;
     }
 
-    private Queue<KeyValuePair<GlobalDirection, int>> movementInstructions;
-    private bool ProcessingDeer = false;
+    public Queue<KeyValuePair<GlobalDirection, int>> movementInstructions;
+    public List<Chunk> playerpath;
+    public bool ProcessingDeer = false;
     public void AddCard(maskType mask)
     {
-        // TODO : waiting on Board 
-        // NEED TO INFER MOVE LIST TO FEED TO BOARD
-        // all are actions but snake
+   
         movementInstructions.Clear();
 
         switch (mask)
@@ -160,11 +143,7 @@ public class GameManager : MonoBehaviour
 
     public void AddCard(Queue<CardMove> movelist)
     {
-        // TODO : waiting on Board 
-        // check  current player orientation
-        // ACTION ALL
-        // createa movement instruction base on the player orientatoin
-        // store it to be used in the processing state
+      
         // idealy 2 foward , 2 left ,2 left with player facing north  should map to 2 north, 2 west, 2 south.
         movementInstructions.Clear();
         movementInstructions = ConvertCardMoveToBoardMoves(movelist);
@@ -216,12 +195,9 @@ public class GameManager : MonoBehaviour
         return (GlobalDirection)WorldDir;
     }
 
-    // TODO:: WAITING ON BOARD FOR gET CHUNK AT POSITION
-    // NEED PLAYER OBJECT WITH GIRD POSITION
-    // 
+    
     public bool HasPlayerWon() { return (player.CurrentChunkData.type == ChunkType.GOAL); }
-    // TODO : WAITING ON BOARD FOR gET CHUNK AT POSITION
-    // NEED ALSO TO CHECK HAND SIZE
+ 
     public bool HasPlayerLost() { 
         if(hand.cardsInHand.Count == 0 && player.CurrentChunkData.type != ChunkType.GOAL)
         {
@@ -245,6 +221,30 @@ public class GameManager : MonoBehaviour
             Debug.Log("Loading Next Level");
             SceneManager.LoadScene(nextIndex);
         }
+    }
+    private int[,,] ArrayofChunks(List<ChunkLevelData> chunks)
+    {
+        int[,,] array = new int[boardSizeX, boardSizeY, boardSizeZ];
+        for(int i = 0; i < chunks.Count; i++)
+        {
+            Vector3Int pos = chunks[i].position;
+            array[pos.x, pos.y, pos.z] = (int)chunks[i].type;
+        }
+
+        return array;
+    }
+
+    private List<CardData> PopulateCardData(List<CardLevelData> listOfCards)
+    {
+        List<CardData> data = new List<CardData>();
+        for(int i  = 0; i < listOfCards.Count; i++)
+        {
+            CardData cardData = new CardData();
+            cardData.maskType = listOfCards[i].maskType;
+            cardData.moveList = new Queue<CardMove>(listOfCards[i].moveList);
+            data.Add(cardData);
+        }
+        return data;
     }
 
 }

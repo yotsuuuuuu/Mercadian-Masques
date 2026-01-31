@@ -1,3 +1,4 @@
+using UnityEditor.XR;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,5 +8,7 @@ public class Player : MonoBehaviour
 
     public int FlyingEffectCounter = 0;
     public bool SnakeEffectActive = false;
+
+    public bool IsPlayerMoving = false;
 
 }
