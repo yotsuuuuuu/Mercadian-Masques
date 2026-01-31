@@ -21,7 +21,7 @@ public class Cards:MonoBehaviour
     [SerializeField]private List<CardMove> cardMovementList;
     [SerializeField] public maskType mask;
     [SerializeField] public dir direction;
-
+    public Sprite cardSprite;
     private void Awake()
     {
         cardMovement = new Queue<CardMove>(cardMovementList);
