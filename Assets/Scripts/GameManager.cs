@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public bool isProcessingCard;
     [SerializeField] private GameObject boardManager;
     [SerializeField] private GameObject handManager;
-    [SerializeField] public List<CardLevelData> ListOfCards;
+    [SerializeField] public LevelCardDataResource CardsData;
     [SerializeField] public LevelDataResource ListOfChunks;
     private List<CardData> ListofCardData;
 
@@ -37,9 +37,9 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        board = boardManager.GetComponent<BoardManager>();
-        hand = handManager.GetComponent<HandManager>();
-        ListofCardData = PopulateCardData(ListOfCards);
+        //board = boardManager.GetComponent<BoardManager>();
+        //hand = handManager.GetComponent<HandManager>();
+        ListofCardData = PopulateCardData(CardsData.ListOfCards);
 
         isProcessingCard = false;
 
@@ -116,16 +116,18 @@ public class GameManager : MonoBehaviour
 
     //TODO :  IMPLEMENT NOT WAITING ON ANYTHING
     public void ResetLevel() {
+        Debug.Log("Resetting Level");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadNextLevel() 
     {
-
+        Debug.Log("Try to Load Next Level");
         int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
         if (nextIndex < SceneManager.sceneCountInBuildSettings)
         {
+            Debug.Log("Loading Next Level");
             SceneManager.LoadScene(nextIndex);
         }
     }
