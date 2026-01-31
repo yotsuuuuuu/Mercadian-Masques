@@ -1,9 +1,191 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class CardMovement: MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    
+
+    private RectTransform rectTransform;
+    private Canvas canvas;
+    private Vector2 originalLocalPointerPosition;
+    private Vector3 originalPanelLocalPosition;
+    private Vector3 originalScale;
+    private int currentState = 0;
+    private Quaternion originalRotation;
+    private Vector3 originalPosition;
+
+    [SerializeField] private float selectScale = 1.1f;
+    [SerializeField] private float cardPlayY;
+    [SerializeField] private float cardMoveX;
+    [SerializeField] private float cardMaskX;
+    [SerializeField] private float boarderX; // the UI would be past this point so do not allow play there
+
+    [SerializeField] private Vector3 movePlayPosition;
+    [SerializeField] private Vector3 maskPlayPosition;
+    [SerializeField] private GameObject glowEffect; //  same with this maybe??
+    //[SerializeField] private GameObject playArrow; // probably dont need
+
+    [SerializeField] private float lerpFactor = .2f;
 
 
+    void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
+        originalScale = rectTransform.localScale;
+        originalRotation = rectTransform.localRotation;
+        originalPosition = rectTransform.localPosition;
+        glowEffect.SetActive(false);
+        //playArrow.SetActive(false);
+    }
+
+    void Update()
+    {
+        switch (currentState)
+        {
+            case 1:
+                HandleHoverState();
+                break;
+            case 2:
+                HandleDragState();
+                if (!Mouse.current.leftButton.isPressed)
+                {
+                    TransitionToState0();
+                }
+                break;
+            case 3:
+                HandleMaskPlayState();
+                if (!Mouse.current.leftButton.isPressed)
+                {
+                    TransitionToState0();
+                }
+                break;
+            case 4:
+                HandleMovePlayState();
+                if (!Mouse.current.leftButton.isPressed)
+                {
+                    TransitionToState0();
+                }
+                break;
+        }
+    }
+
+    private void TransitionToState0()
+    {
+        currentState = 0;
+        rectTransform.localScale = originalScale; // reset scale
+        rectTransform.localRotation = originalRotation; // reset rotation
+        rectTransform.localPosition = originalPosition; // reset position
+        glowEffect.SetActive(false);
+        // playArrow.SetActive(false);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (currentState == 0)
+        {
+            originalPosition = rectTransform.localPosition;
+            originalRotation = rectTransform.localRotation;
+            originalScale = rectTransform.localScale;
+            currentState = 1; // hover state
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (currentState == 1)
+        {
+            currentState = 0; // back to normal state
+            TransitionToState0();
+        }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (currentState == 1)
+        {
+            currentState = 2; // drag state
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), 
+                                                                    eventData.position, 
+                                                                    eventData.pressEventCamera,
+                                                                    out originalLocalPointerPosition);
+            originalPanelLocalPosition = rectTransform.localPosition;
+
+        }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (currentState == 2)
+        {
+            Vector2 localPointerPosition;
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), 
+                                                                        eventData.position, 
+                                                                        eventData.pressEventCamera, 
+                                                                        out localPointerPosition))
+            {
+
+                rectTransform.position = Vector3.Lerp(rectTransform.position, Mouse.current.position.ReadValue(), lerpFactor);
+
+                if (rectTransform.localPosition.y > cardPlayY) // above threshold to play the card
+                {
+                    if  (Mouse.current.position.ReadValue().x < 0) // left side of screen
+                    {
+                        currentState = 3; // mask play state
+                        //playArrow.SetActive(true);
+                        rectTransform.localPosition = Vector3.Lerp(rectTransform.position, maskPlayPosition, lerpFactor);
+                    }
+                    else if (Mouse.current.position.ReadValue().x > 0 && Mouse.current.position.ReadValue().x < boarderX) // right side of screen and before the boarder
+                    {
+                        currentState = 4; // move play state
+                        //playArrow.SetActive(true);
+                        rectTransform.localPosition = Vector3.Lerp(rectTransform.position, movePlayPosition, lerpFactor);
+                    }
+                    currentState = 3;
+                    //playArrow.SetActive(true);
+                    //rectTransform.localPosition = Vector3.Lerp(rectTransform.position, playPosition, lerpFactor);
+                }
+            }
+        }
+    }
+
+    private void HandleHoverState()
+    {
+        glowEffect.SetActive(true);
+        rectTransform.localScale = originalScale * selectScale;
+    }
+
+    private void HandleMaskPlayState() // left of screen
+    {
+        rectTransform.localPosition = Vector3.Lerp(rectTransform.localPosition, maskPlayPosition, lerpFactor);
+        rectTransform.localRotation = Quaternion.identity;  // reset to 0
+
+        if (Mouse.current.position.ReadValue().y < cardPlayY)
+        {
+            currentState = 2; // back to drag state
+            //playArrow.SetActive(false);
+        }
+
+        if (Mouse.current.position.ReadValue().x > 0) //  greater than 0 meaning mouse is on right of screen
+        {
+            currentState = 3; // move to movement state
+        }
+    }
+
+    private void HandleMovePlayState()
+    {
+        rectTransform.localPosition = Vector3.Lerp(rectTransform.localPosition, movePlayPosition, lerpFactor);
+        rectTransform.localRotation = Quaternion.identity;  // reset to 0
+        if (Mouse.current.position.ReadValue().y < cardPlayY)
+        {
+            currentState = 2; // back to drag state
+            //playArrow.SetActive(false);
+        }
+    }
+
+    private void HandleDragState()
+    {
+        rectTransform.localRotation = Quaternion.identity;  // reset to 0
+    }
 }

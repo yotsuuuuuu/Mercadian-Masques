@@ -85,6 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6959724535291783820}
   - component: {fileID: 7442187999996055911}
+  - component: {fileID: 4461538816486177702}
   m_Layer: 0
   m_Name: CardPrefab
   m_TagString: Untagged
@@ -158,6 +159,23 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.5, y: 3.5}
   m_EdgeRadius: 0
+--- !u!114 &4461538816486177702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844380427264827016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5422c5bc4513aca4f85a98ec6bc0acfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardMovement
+  selectScale: 1.1
+  cardPlay: {x: 0, y: 250}
+  playPosition: {x: 0, y: 0, z: 0}
+  glowEffect: {fileID: 7816345335311995121}
+  lerpFactor: 0.2
 --- !u!1 &7572692255329710344
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.805266, b: 0.9811321, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
