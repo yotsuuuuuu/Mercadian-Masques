@@ -16,7 +16,7 @@ public class Chunk : MonoBehaviour{
 
 
     [SerializeField] int chunksize = 5; // size of the chunnk (square so 5x5)
-    [SerializeField] Vector3 worldPosition; //  maybe not necessary
+    Vector3 worldPosition; //  maybe not necessary
     Vector3Int gridIndex;
     [SerializeField] ChunkType chunkType;
     [SerializeField] GameObject meshObject;
@@ -48,7 +48,7 @@ public class Chunk : MonoBehaviour{
         // set mesh or material based on type
     }
 
-    public Vector3 GetCentrePos()
+    public Vector3 GetWorldPosition()
     {
         return transform.position;
     }
@@ -58,5 +58,8 @@ public class Chunk : MonoBehaviour{
         return chunkType;
     }
 
-
+    public Vector3Int GetGridIndex()
+    {
+        return gridIndex;
+    }
 }

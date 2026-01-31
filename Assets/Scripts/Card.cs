@@ -16,20 +16,21 @@ public enum CardDir { Foward, Right, Back,  Left, Up,Down };
     public CardDir direction;
     public int amount;
 }
+
 public class Card:MonoBehaviour
 {
    
-    public Queue<CardMove>cardMovement;
+    public Queue<CardMove> cardMovement;
+    //[SerializeField] public CardDir direction;
     [SerializeField]public List<CardMove> cardMovementList;
     [SerializeField] public maskType mask;
-    [SerializeField] public CardDir direction;
-    public Sprite cardSprite;
-    public Image[] typeImages;
+    //public Sprite cardSprite; // not used?
+    public Image[] maskImages;
 
-    public void SetCard(Queue<CardMove> card_, maskType type_)
+    public void SetCard(Queue<CardMove> moves_, maskType mask_)
     {
-        cardMovement = card_;
-        mask = type_;
+        cardMovement = moves_;
+        mask = mask_;
     }
 
 }

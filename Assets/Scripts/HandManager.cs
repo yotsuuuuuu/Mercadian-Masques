@@ -11,7 +11,6 @@ public class HandManager : MonoBehaviour
     public float spacing = -100;
     public float vspacing = 100;
     public List<GameObject> cardsInHand = new List<GameObject>();
-    public List<Card> cardsInHandData = new List<Card>();
     public List<GameObject> cardstest = new List<GameObject>();
    
     int cardAmount;
@@ -19,40 +18,57 @@ public class HandManager : MonoBehaviour
 
     private void Start()
     {
-        //cardstest.Add(cardPrefab);
-        //cardstest.Add(cardPrefab);
-        //cardstest.Add(cardPrefab);
-        //cardstest.Add(cardPrefab);
-        //cardstest.Add(cardPrefab);
-        //cardstest.Add(cardPrefab);
-        //cardstest.Add(cardPrefab);
+        cardstest.Add(cardPrefab);
+        cardstest.Add(cardPrefab);
+        cardstest.Add(cardPrefab);
+        cardstest.Add(cardPrefab);
+        cardstest.Add(cardPrefab);
+        cardstest.Add(cardPrefab);
+        cardstest.Add(cardPrefab);
 
 
-        //AddCardsToHand(cardstest);
+        AddCardsToHand(cardstest);
 
     }
 
     private void Update()
     {
-        UpdateHandVisual();   
+        //UpdateHandVisual();   
     }
 
 
-    private void AddCardsToHand(List<CardData> cardslist_)
+    public void AddCardsToHand(List<CardData> cardslist_)
     {
         cardAmount = cardslist_.Count;
-       
-       for(int i = 0;cardslist_.Count > i;i++)
+
+        for (int i = 0; cardslist_.Count > i; i++)
         {
+            // card data includes the mask (enum) and the move instructions (queue)
+
             GameObject cardObject = Instantiate(cardPrefab, handTransform.position, Quaternion.identity, handTransform);
             cardsInHand.Add(cardObject);
             Card cardData = cardObject.GetComponent<Card>();
-
-            cardsInHandData.Add(cardData);
+            cardData.SetCard(cardslist_[i].moveList, cardslist_[i].maskType);
         }
+
         UpdateHandVisual();
         
     }
+
+    public void AddCardsToHand(List<GameObject> cardslist_)
+    {
+        cardAmount = cardslist_.Count;
+        for (int i = 0; cardslist_.Count > i; i++)
+        {
+            // card data includes the mask (enum) and the move instructions (queue)
+            GameObject cardObject = Instantiate(cardslist_[i], handTransform.position, Quaternion.identity, handTransform);
+            cardsInHand.Add(cardObject);
+            //Card cardData = cardObject.GetComponent<Card>();
+            //cardData.SetCard(cardslist_[i].moveList, cardslist_[i].maskType);
+        }
+        UpdateHandVisual();
+    }
+
     private void UpdateHandVisual()
     {
         int cardCount = cardsInHand.Count;
