@@ -4,17 +4,16 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     // 
-    int boardSizeX = 9;
-    int boardSizeZ = 9;
-    int boardSizeY = 2; // height levels
+    int boardSizeX, boardSizeZ; 
+    int boardSizeY = 2;
 
     Chunk[,,] board;
 
     [SerializeField] Chunk chunkPrefab;
-    private void Start()
-    {
-        Initialize(new int[boardSizeX, boardSizeY, boardSizeZ]);
-    }
+    //private void Start()
+    //{
+    //    Initialize(new int[boardSizeX, boardSizeY, boardSizeZ]);
+    //}
 
     private List<Chunk> CheckMovement(Queue<KeyValuePair<GlobalDirection, int>> movementInstructions, Vector3Int playerPos)
     {
@@ -54,25 +53,31 @@ public class BoardManager : MonoBehaviour
                     default:
                         break;
                 }
-                // exception handling for OOB
-                if (playerPos.x < 0 || playerPos.x >= boardSizeX ||
-                    playerPos.y < 0 || playerPos.y >= boardSizeY ||
-                    playerPos.z < 0 || playerPos.z >= boardSizeZ)
+
+                Chunk temp = GetChunkAtPosition(playerPos);
+                if( temp == null)
                 {
-                    Debug.Log("Out of Bounds Movement Detected");
+                    Debug.Log("out of bounds movement");
                     return potentialChunks;
                 }
-                potentialChunks.Add(board[playerPos.x, playerPos.y, playerPos.z]);
+                potentialChunks.Add(temp);
 
             }
         }
             return potentialChunks;
     }
 
-    void Initialize(int[,,] chunkInfoArray)
+    public void Initialize(int[,,] chunkInfoArray, int boardX, int boardY, int boardZ)
     {
+
+        //board = new Chunk[boardSizeX, boardSizeY, boardSizeZ];
+        boardSizeX = boardX;
+        boardSizeY = boardY;
+        boardSizeZ = boardZ;
+
         board = new Chunk[boardSizeX, boardSizeY, boardSizeZ];
-        int[,,] chunkInfosArray = new int[boardSizeX, boardSizeY, boardSizeZ];
+
+        //int[,,] chunkInfosArray = new int[boardSizeX, boardSizeY, boardSizeZ];
 
         for (int y = 0; y < boardSizeY; y++)
         {
@@ -80,7 +85,10 @@ public class BoardManager : MonoBehaviour
             {
                 for (int z = 0; z < boardSizeZ; z++)
                 {
-                    var chunkType = chunkInfosArray[x, y, z];
+                    // edit here to set chunk type based on chunkInfosArray
+                    // chunkInfoArray will be empty except for the given chunk types.
+
+                    var chunkType = chunkInfoArray[x, y, z];
                     //if (chunkType == -1) do something; // empty chunks == air
                     Debug.Log("chunkType:" + chunkType);
                     var chunk = Instantiate(chunkPrefab);
@@ -114,6 +122,7 @@ public class BoardManager : MonoBehaviour
                             break;
                     }
                     chunk.SetCentrePos(x,y,z);
+                    // chunk.SetMesh (maybe do this on set type)
                     board[x, y, z] = chunk;
 
                     //Debug.Log("x:" + x + " y:" + y + " z:" + z);
@@ -127,5 +136,18 @@ public class BoardManager : MonoBehaviour
 
         }
     }
+
+    public Chunk GetChunkAtPosition(Vector3Int position)
+    {
+        if (position.x < 0 || position.x >= boardSizeX ||
+            position.y < 0 || position.y >= boardSizeY ||
+            position.z < 0 || position.z >= boardSizeZ)
+        {
+            Debug.Log("out of bounds");
+            return null;
+        }
+        return board[position.x, position.y, position.z];
+    }
+
 }
 

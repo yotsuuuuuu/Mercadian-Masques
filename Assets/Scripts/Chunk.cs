@@ -15,7 +15,7 @@ public enum ChunkType
 public class Chunk : MonoBehaviour{
 
 
-    [SerializeField] int chunksize = 5; // size of the chunnk (square so 16x16)
+    [SerializeField] int chunksize = 5; // size of the chunnk (square so 5x5)
     [SerializeField] Vector3 worldPosition; //  maybe not necessary
     Vector3Int gridIndex;
     [SerializeField] ChunkType chunkType;
@@ -25,7 +25,6 @@ public class Chunk : MonoBehaviour{
     {
         //this.centrePos = centrePos;
         this.chunkType = chunkType;
-        OnCreate();
     }
 
     public void SetCentrePos(int x, int y, int z)
@@ -34,6 +33,7 @@ public class Chunk : MonoBehaviour{
         Debug.Log("X:" + x + " Y:" + y + " Z:" + z);
         Debug.Log("Chunksize:" + chunksize);
         Debug.Log("Chunk position set to " + transform.position);
+        gridIndex = new Vector3Int(x, y, z);
 
         //if (x == 0 && z == 0)
         //{
@@ -45,6 +45,7 @@ public class Chunk : MonoBehaviour{
     public void SetChunkType(ChunkType type_)
     {
         this.chunkType = type_;
+        // set mesh or material based on type
     }
 
     public Vector3 GetCentrePos()
@@ -57,10 +58,5 @@ public class Chunk : MonoBehaviour{
         return chunkType;
     }
 
-    private void OnCreate()
-    {
-        // Debug.Log("Chunk created at " + centrePos + " of type " + chunkType);
-        //meshObject.GetComponent<MeshFilter>().mesh = 
-    }
 
 }
