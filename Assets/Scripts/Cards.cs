@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static Cards;
 
 
 
 public enum maskType { Bull, Frog, Deer, Bird, Snake };
 
-public enum dir { north, east, sout, west };
+public enum dir { forward, right, back, left,up,down };
 
 
 [System.Serializable] public struct CardMove
@@ -22,9 +23,12 @@ public class Cards:MonoBehaviour
     [SerializeField] public maskType mask;
     [SerializeField] public dir direction;
     public Sprite cardSprite;
-    private void Awake()
+    public Image[] typeImages;
+
+    public void SetCard(Queue<CardMove> card_, maskType type_)
     {
-        cardMovement = new Queue<CardMove>(cardMovementList);
+        cardMovement = card_;
+        mask = type_;
     }
 
 }
