@@ -15,7 +15,7 @@ public class BoardManager : MonoBehaviour
     //    Initialize(new int[boardSizeX, boardSizeY, boardSizeZ]);
     //}
 
-    private List<Chunk> CheckMovement(Queue<KeyValuePair<GlobalDirection, int>> movementInstructions, Vector3Int playerPos)
+    public List<Chunk> CheckMovement(Queue<KeyValuePair<GlobalDirection, int>> movementInstructions, Vector3Int playerPos)
     {
         // x: east-west +/-
         // y: height level
