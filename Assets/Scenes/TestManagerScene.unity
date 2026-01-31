@@ -367,6 +367,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188d335ec0128bc4a8ec1d16a940b6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  isProcessingCard: 0
+  boardManager: {fileID: 0}
+  handManager: {fileID: 0}
+  ListOfCards: []
+  ListOfChunks: {fileID: 11400000, guid: 1892fbf2a60a45c46add7173028f0f7c, type: 2}
 --- !u!4 &1674764986
 Transform:
   m_ObjectHideFlags: 0

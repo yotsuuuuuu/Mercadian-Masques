@@ -1,7 +1,20 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+[System.Serializable]
+public class CardLevelData
+{
+    public maskType maskType;
+    public List<CardMove> moveList;
+}
+[System.Serializable]
+public class ChunkLevelData
+{
+    public ChunkType type;
+    public Vector3Int position;
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +22,16 @@ public class GameManager : MonoBehaviour
     public bool isProcessingCard;
     [SerializeField] private GameObject boardManager;
     [SerializeField] private GameObject handManager;
+    [SerializeField] public List<CardLevelData> ListOfCards;
+    [SerializeField] public LevelDataResource ListOfChunks;
+    private List<CardData> ListofCardData;
+
+    public struct CardData
+    {
+        public maskType maskType;
+        public Queue<CardMove> moveList;
+    }
+
     private BoardManager board;
     private HandManager hand;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -16,6 +39,8 @@ public class GameManager : MonoBehaviour
     {
         board = boardManager.GetComponent<BoardManager>();
         hand = handManager.GetComponent<HandManager>();
+        ListofCardData = PopulateCardData(ListOfCards);
+
         isProcessingCard = false;
 
         stateMachine = new StateMachine();
@@ -32,6 +57,19 @@ public class GameManager : MonoBehaviour
         //stateMachine.AddTransitions(processing, new TransitonState(() => !ProcessingCard(), processing));
         stateMachine.AddTransitions(playerState, new TransitonState(() => PlayerCheck(), idel));
         stateMachine.AddTransitions(playerState, new TransitonState(() => !PlayerCheck(), processing));
+    }
+
+    private List<CardData> PopulateCardData(List<CardLevelData> listOfCards)
+    {
+        List<CardData> data = new List<CardData>();
+        for(int i  = 0; i < listOfCards.Count; i++)
+        {
+            CardData cardData = new CardData();
+            cardData.maskType = listOfCards[i].maskType;
+            cardData.moveList = new Queue<CardMove>(listOfCards[i].moveList);
+            data.Add(cardData);
+        }
+        return data;
     }
 
     // Update is called once per frame
@@ -77,7 +115,19 @@ public class GameManager : MonoBehaviour
     public bool HasPlayerLost() { return false; }
 
     //TODO :  IMPLEMENT NOT WAITING ON ANYTHING
-    public void ResetLevel() { }
-    public void LoadNextLevel() { }
+    public void ResetLevel() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadNextLevel() 
+    {
+
+        int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if (nextIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(nextIndex);
+        }
+    }
 
 }
