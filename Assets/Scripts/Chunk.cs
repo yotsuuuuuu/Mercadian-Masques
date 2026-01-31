@@ -3,7 +3,7 @@ using UnityEngine;
 public enum ChunkType
 {
     AIR = 0,
-    GROUND = 1, // in context both 0
+    GROUND = 1,
     HEDGE = 2,
     AIR_HEDGE = 3,
     ROCK = 4,
