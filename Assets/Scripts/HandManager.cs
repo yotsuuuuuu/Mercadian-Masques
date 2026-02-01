@@ -158,12 +158,14 @@ public class HandManager : MonoBehaviour
             {
                 tobeDestroyed = c;
                 cardsInHand.Remove(c);
-                UpdateHandVisual();
                 break;
             }
         }
-        
-        if(tobeDestroyed != null)
+
+        if (tobeDestroyed != null)
+        {
             Destroy(tobeDestroyed);
+            UpdateHandVisual();
+        }
     }
 }
