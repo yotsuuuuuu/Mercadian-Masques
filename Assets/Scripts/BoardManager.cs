@@ -46,6 +46,7 @@ public class BoardManager : MonoBehaviour
                         break;
                     case GlobalDirection.Up:
                         playerPos.y++;
+                        playerPos.y = Mathf.Clamp(playerPos.y, 0, boardActualY - 1);
                         //y++;
                         break;
                     case GlobalDirection.Down:
