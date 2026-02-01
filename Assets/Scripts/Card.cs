@@ -80,7 +80,7 @@ public class Card:MonoBehaviour
 
         foreach (CardMove move in moves_)
         {
-            text.text += move.direction + ":" + move.amount + "\n"; 
+            text.text += move.direction + " " + move.amount + "\n"; 
          }
     }
 
