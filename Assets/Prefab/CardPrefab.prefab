@@ -102,7 +102,7 @@ RectTransform:
   m_GameObject: {fileID: 1844380427264827016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 1}
+  m_LocalScale: {x: 70, y: 70, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5717865943212971242}
@@ -171,13 +171,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5422c5bc4513aca4f85a98ec6bc0acfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardMovement
+  handManager: {fileID: 0}
+  hoverLift: 20
   selectScale: 1.1
-  cardPlayY: 0
-  cardMoveX: 0
-  cardMaskX: 0
-  boarderX: 0
-  movePlayPosition: {x: 100, y: 0, z: 0}
-  maskPlayPosition: {x: -100, y: 0, z: 0}
+  cardPlayY: 300
+  cardPlayX: 327.5
+  boarderX: 1220
+  movePlayPosition: {x: -27, y: 290, z: 0}
+  maskPlayPosition: {x: -688, y: 290, z: 0}
   glowEffect: {fileID: 7816345335311995121}
   lerpFactor: 0.2
 --- !u!1 &7572692255329710344

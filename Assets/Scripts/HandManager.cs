@@ -12,7 +12,10 @@ public class HandManager : MonoBehaviour
     public float vspacing = 100;
     public List<GameObject> cardsInHand = new List<GameObject>();
     public List<GameObject> cardstest = new List<GameObject>();
-   
+
+    [SerializeField] float hOFFSET;
+    [SerializeField] float vOFFSET;
+
     int cardAmount;
     bool processing;
 
@@ -89,7 +92,7 @@ public class HandManager : MonoBehaviour
             float verticalOffset = vspacing * (1 - normalizedPosition * normalizedPosition); // More offset towards the center
 
             // set card position
-            cardsInHand[i].transform.localPosition = new Vector3(horizontalOffset, verticalOffset - 450, 0f);
+            cardsInHand[i].transform.localPosition = new Vector3(horizontalOffset + hOFFSET, verticalOffset + vOFFSET , 0f);
         }
     }
     
