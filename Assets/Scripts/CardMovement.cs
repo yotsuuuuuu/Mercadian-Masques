@@ -64,6 +64,7 @@ public class CardMovement: MonoBehaviour, IDragHandler, IPointerDownHandler, IPo
                 break;
             case 3:
                 HandleMaskPlayState();
+                handManager.getCardInfo(this.gameObject, currentState);
                 if (!Mouse.current.leftButton.isPressed)
                 {
                     TransitionToState0();
@@ -71,6 +72,7 @@ public class CardMovement: MonoBehaviour, IDragHandler, IPointerDownHandler, IPo
                 break;
             case 4:
                 HandleMovePlayState();
+                handManager.getCardInfo(this.gameObject, currentState);
                 if (!Mouse.current.leftButton.isPressed)
                 {
                     TransitionToState0();

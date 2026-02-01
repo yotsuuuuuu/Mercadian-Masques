@@ -12,7 +12,7 @@ public class HandManager : MonoBehaviour
     public float vspacing = 100;
     public List<GameObject> cardsInHand = new List<GameObject>();
     public List<GameObject> cardstest = new List<GameObject>();
-
+    private GameManager gameManager;
     [SerializeField] float hOFFSET;
     [SerializeField] float vOFFSET;
 
@@ -21,6 +21,7 @@ public class HandManager : MonoBehaviour
 
     private void Start()
     {
+        gameManager = FindAnyObjectByType<GameManager>();
         cardstest.Add(cardPrefab);
         cardstest.Add(cardPrefab);
         cardstest.Add(cardPrefab);
@@ -67,7 +68,7 @@ public class HandManager : MonoBehaviour
             GameObject cardObject = Instantiate(cardslist_[i], handTransform.position, Quaternion.identity, handTransform);
             cardsInHand.Add(cardObject);
             //Card cardData = cardObject.GetComponent<Card>();
-            //cardData.SetCard(cardslist_[i].moveList, cardslist_[i].maskType);
+            //cardData.SetCard(cardslist_[i].movelist, cardslist_[i].maskType);
         }
         UpdateHandVisual();
     }
@@ -100,5 +101,23 @@ public class HandManager : MonoBehaviour
     {
         return cardsInHand.Count;
     }
+    public void getCardInfo(GameObject card_, int state_)
+    {
+        GameObject card = card_;
+        if(gameManager.state != GameManagerState.IDLE)
+        {
+            return;
+        }
 
+        if (state_ == 3)
+        {
+            gameManager.AddCard(card.GetComponent<Card>().mask);
+            Debug.Log("mask");
+        }
+        if(state_== 4)
+        {
+            gameManager.AddCard(card.GetComponent<Card>().cardMovement);
+            Debug.Log("movement");
+        }
+    }
 }
