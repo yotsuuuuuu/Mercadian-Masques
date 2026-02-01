@@ -113,23 +113,45 @@ public class HandManager : MonoBehaviour
         {
             gameManager.AddCard(card.GetComponent<Card>().mask);
             Debug.Log("mask");
-            
-            
+            if(card.GetComponent<Card>().mask == maskType.Frog)
+            {
+                SoundManager.PlaySound(SoundEffect.Frog);
+            }
+            else if (card.GetComponent<Card>().mask == maskType.Bull)
+            {
+                SoundManager.PlaySound(SoundEffect.Bull);
+            }
+            else if (card.GetComponent<Card>().mask == maskType.Snake)
+            {
+                SoundManager.PlaySound(SoundEffect.Snake);
+            }
+            else if (card.GetComponent<Card>().mask == maskType.Bird)
+            {
+                SoundManager.PlaySound(SoundEffect.Owl);
+            }
+            else if (card.GetComponent<Card>().mask == maskType.Deer)
+            {
+                SoundManager.PlaySound(SoundEffect.Deer);
+            }
+
+
+
         }
-        if(state_== 4)
+        if (state_== 4)
         {
             gameManager.AddCard(card.GetComponent<Card>().cardMovement);
             Debug.Log("movement");
+              SoundManager.PlaySound(SoundEffect.Walk);
         }
 
-       //foreach(GameObject c in cardsInHand)
-       // {
-       //     if(c == card_)
-       //     {
-       //         cardsInHand.Remove(c);
-       //         Destroy(card_);
-       //         UpdateHandVisual();
-       //     }
-       // }
+        //foreach(GameObject c in cardsInHand)
+        // {
+        //     if(c == card_)
+        //     {how would i pl
+        //         cardsInHand.Remove(c);
+        //         Destroy(card_);
+        //         UpdateHandVisual();
+        //     }
+        // }
     }
 }

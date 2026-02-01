@@ -771,6 +771,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1086190815}
   - component: {fileID: 1086190816}
+  - component: {fileID: 1086190817}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -814,6 +815,66 @@ MonoBehaviour:
   FlyingEffectCounter: 0
   SnakeEffectActive: 0
   IsPlayerMoving: 0
+--- !u!81 &1086190817
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086190814}
+  m_Enabled: 1
+--- !u!1 &1142784442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1142784444}
+  - component: {fileID: 1142784443}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1142784443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142784442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6eda13c0fcad641836a4b1c22f69d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  soundlist:
+  - {fileID: 8300000, guid: aa69b74abd7994f4fb5da83a004c7fb4, type: 3}
+  - {fileID: 8300000, guid: ad233ed53a8a81148afc949a27eaa7e4, type: 3}
+  - {fileID: 8300000, guid: c84da1515f6e2d14cae3179d316bb41a, type: 3}
+  - {fileID: 8300000, guid: 680aa52085d1b0f44a3e90ceda8ad2cf, type: 3}
+  - {fileID: 8300000, guid: 83eea9e71aeaac44a8781baef3f7414f, type: 3}
+  - {fileID: 8300000, guid: e642facdd207e6046b15e16f17390323, type: 3}
+  - {fileID: 8300000, guid: 13a7bcf4c4f018749bfc11ec5ee04d9a, type: 3}
+--- !u!4 &1142784444
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142784442}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1529886234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,3 +1195,4 @@ SceneRoots:
   - {fileID: 590835827}
   - {fileID: 748346775}
   - {fileID: 677540361}
+  - {fileID: 1142784444}
