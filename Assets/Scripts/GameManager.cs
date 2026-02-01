@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
     private void SetStartingValuesToPlayer()
     {
         ChunkLevelData startingChunk = ChunkData.chunks.Find(chunk => chunk.type == ChunkType.START);
-        Vector3Int pos = startingChunk.position;
+        Vector3Int pos = new Vector3Int(startingChunk.position.x + 1, startingChunk.position.y, startingChunk.position.z + 1);
         Chunk startChunk = board.GetChunkAtPosition(pos);
         Vector3 worldpos = startChunk.GetWorldPosition();
         playerObject.transform.position = worldpos;
