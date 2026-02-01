@@ -115,17 +115,18 @@ public class BoardManager : MonoBehaviour
 
         }
 
-        for (int y = 0; y < boardGivenY; y++)
+        for (int x = 0; x < boardGivenX; x++)
         {
-            for (int x = 0; x < boardGivenX; x++)
+            for (int z = 0; z < boardGivenZ; z++)
             {
-                for (int z = 0; z < boardGivenZ; z++)
+                if (chunkInfoArray[x, 0, z] != 0)
                 {
-                    if (chunkInfoArray[x, y, z] != 0)
+                    ChunkType type = (ChunkType)chunkInfoArray[x, 0, z];
+                    Debug.Log(type);
+                    board[x+1, 0, z+1].SetChunkType(type);
+                    if (type == ChunkType.HEDGE)
                     {
-                        ChunkType type = (ChunkType)chunkInfoArray[x, y, z];
-                        Debug.Log(type);
-                        board[x+1, y, z+1].SetChunkType(type);
+                        board[x + 1, 1, z + 1].SetChunkType(ChunkType.AIR_HEDGE);
                     }
                 }
             }

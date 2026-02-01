@@ -77,6 +77,7 @@ public class Chunk : MonoBehaviour{
             case ChunkType.AIR_HEDGE:
             case ChunkType.ROCK:
             case ChunkType.WALL:
+                meshRenderer.enabled = true; // ensure visible
                 meshFilter.mesh = CubeMesh; // set as cube
                 meshObject.transform.localPosition = new Vector3(0, 0, 0); // set at center
                 meshObject.transform.localScale = new Vector3(chunksize,chunksize,chunksize); // scale to chunk size
