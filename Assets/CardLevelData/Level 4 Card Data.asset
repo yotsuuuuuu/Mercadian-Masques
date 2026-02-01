@@ -33,8 +33,6 @@ MonoBehaviour:
       amount: 1
     - direction: 3
       amount: 1
-  - maskType: 0
-    moveList: []
   - maskType: 1
     moveList:
     - direction: 2

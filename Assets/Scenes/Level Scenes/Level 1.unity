@@ -1209,7 +1209,8 @@ MonoBehaviour:
     type: 0
     position: {x: 0, y: 0, z: 0}
   currentDir: 0
-  speed: 2
+  speed: 5
+  rotationSpeed: 360
   FlyingEffectCounter: 0
   SnakeEffectActive: 0
   IsPlayerMoving: 0

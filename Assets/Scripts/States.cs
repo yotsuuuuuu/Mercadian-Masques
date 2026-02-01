@@ -192,6 +192,7 @@ public class ProcessingState : State
         {
             Debug.Log("PLayer stoped moving");
             gameManager.isProcessingCard = false;
+            
 
         }
     }
@@ -205,7 +206,7 @@ public class CheckPLayerState : State
     {
         //Debug.Log("Enter CheckPLayer State");
         gameManager.state = GameManagerState.CHECKPLAYER;
-        //Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
+        Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
         //Debug.Log("Player FlyingCounter" + gameManager.player.FlyingEffectCounter.ToString());
     }
     public override void Exit()

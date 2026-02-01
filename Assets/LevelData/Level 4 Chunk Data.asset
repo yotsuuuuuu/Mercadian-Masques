@@ -23,3 +23,39 @@ MonoBehaviour:
     position: {x: 5, y: 0, z: 4}
   - type: 4
     position: {x: 4, y: 0, z: 4}
+  - type: 2
+    position: {x: 3, y: 0, z: 0}
+  - type: 2
+    position: {x: 3, y: 0, z: 1}
+  - type: 2
+    position: {x: 3, y: 0, z: 2}
+  - type: 2
+    position: {x: 5, y: 0, z: 0}
+  - type: 2
+    position: {x: 5, y: 0, z: 1}
+  - type: 2
+    position: {x: 5, y: 0, z: 2}
+  - type: 2
+    position: {x: 3, y: 0, z: 6}
+  - type: 2
+    position: {x: 3, y: 0, z: 7}
+  - type: 2
+    position: {x: 3, y: 0, z: 8}
+  - type: 2
+    position: {x: 5, y: 0, z: 6}
+  - type: 2
+    position: {x: 5, y: 0, z: 7}
+  - type: 2
+    position: {x: 5, y: 0, z: 8}
+  - type: 2
+    position: {x: 2, y: 0, z: 3}
+  - type: 2
+    position: {x: 2, y: 0, z: 4}
+  - type: 2
+    position: {x: 2, y: 0, z: 5}
+  - type: 2
+    position: {x: 6, y: 0, z: 3}
+  - type: 2
+    position: {x: 6, y: 0, z: 4}
+  - type: 2
+    position: {x: 6, y: 0, z: 5}

@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public ChunkLevelData CurrentChunkData; // contains grid position and current chunk type
     public GlobalDirection currentDir; // current facing direction
     [SerializeField] public float speed = 2.0f;
+    [SerializeField] public float rotationSpeed = 360.0f;
     public int FlyingEffectCounter = 0;
     public bool SnakeEffectActive = false;
 
@@ -30,31 +31,58 @@ public class Player : MonoBehaviour
     {
         yield return null;
         Chunk targetChunk = path[0];
-        UpdateRotation(targetChunk, CurrentChunkData.position);
+        // UpdateRotation(targetChunk, CurrentChunkData.position);
+        Quaternion targetRotation = GetTargetRotation(targetChunk, CurrentChunkData.position);
+        Vector3Int lastpostion = CurrentChunkData.position;
         int index = 0;
-        while (index < path.Count) {
+        while (index < path.Count)
+        {
             Vector3 targetPos = targetChunk.GetWorldPosition();
             transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-           
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,targetRotation, rotationSpeed * Time.deltaTime );
             if ((transform.position - targetPos).sqrMagnitude < 0.0001f)
             {
+                currentDir = VectorToWorldDirection(targetChunk.GetGridIndex() - lastpostion);
+                lastpostion = targetChunk.GetGridIndex();
                 transform.position = targetPos;
 
                 CurrentChunkData.position = targetChunk.GetGridIndex();
                 CurrentChunkData.type = targetChunk.GetChunkType();
+                //UpdateRotation(targetChunk, CurrentChunkData.position);
 
                 index++;
 
                 if (index >= path.Count)
                     break;
 
-                targetChunk = path[index];                
-                UpdateRotation(targetChunk, CurrentChunkData.position);
+                targetChunk = path[index];
+
+                targetRotation = GetTargetRotation(targetChunk, CurrentChunkData.position);
             }
 
             yield return null;
         }
         IsPlayerMoving = false;
+    }
+    Quaternion GetTargetRotation(Chunk targetChunk, Vector3Int currentPos)
+    {
+        Vector3Int dir = targetChunk.GetGridIndex() - currentPos;
+        dir.y = 0;
+
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
+        {
+            Debug.Log("x direction");
+            return dir.x > 0 ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, 270, 0);
+        }
+        else if (Mathf.Abs(dir.x) < Mathf.Abs(dir.z))
+        {
+            Debug.Log("z direction");
+            return dir.z > 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            return transform.rotation; // No change in rotation
+        }
     }
 
     private void DebugPrintPath(List<Chunk> path)
@@ -100,6 +128,8 @@ public class Player : MonoBehaviour
         if (dir == Vector3Int.left)      // (-1, 0, 0)
             return GlobalDirection.West;
 
-        throw new System.ArgumentException("Invalid direction vector: " + dir);
+        return currentDir;
+
+        // throw new System.ArgumentException("Invalid direction vector: " + dir);
     }
 }
