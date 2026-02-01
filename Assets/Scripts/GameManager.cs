@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
 
     public Queue<KeyValuePair<GlobalDirection, int>> movementInstructions;
     public List<Chunk> playerpath;
-    public bool ProcessingDeer = false;
+    public maskType currentPlayMask = maskType.Null;
     public void AddCard(maskType mask)
     {
    
@@ -109,11 +109,13 @@ public class GameManager : MonoBehaviour
         switch (mask)
         {
             case maskType.Bull:
+                currentPlayMask = maskType.Bull;
                 Queue<CardMove> bullMoves = new Queue<CardMove>();
                 bullMoves.Enqueue(new CardMove { direction = CardDir.Foward, amount = 1  });
                 movementInstructions = ConvertCardMoveToBoardMoves(bullMoves);
                 break;
             case maskType.Frog:
+                currentPlayMask = maskType.Frog;
                 Queue<CardMove> frogMoves = new Queue<CardMove>();
                 frogMoves.Enqueue(new CardMove { direction = CardDir.Up, amount = 1  });
                 frogMoves.Enqueue(new CardMove { direction = CardDir.Foward, amount = 2  });
@@ -121,18 +123,20 @@ public class GameManager : MonoBehaviour
                 movementInstructions = ConvertCardMoveToBoardMoves(frogMoves);
                 break;
             case maskType.Deer:
-                ProcessingDeer = true;
+                currentPlayMask = maskType.Deer;
                 Queue<CardMove> deerMoves = new Queue<CardMove>();
                 deerMoves.Enqueue(new CardMove { direction = CardDir.Foward, amount = 1  });
                 movementInstructions = ConvertCardMoveToBoardMoves(deerMoves);
                 break;
             case maskType.Bird:
+                currentPlayMask = maskType.Bird;
                 player.FlyingEffectCounter += 2;
                 Queue<CardMove> birdMoves = new Queue<CardMove>();
                 birdMoves.Enqueue(new CardMove { direction = CardDir.Up, amount = 1  });
                 movementInstructions = ConvertCardMoveToBoardMoves(birdMoves);
                 break;
             case maskType.Snake:
+                currentPlayMask = maskType.Snake;
                 player.SnakeEffectActive = true;
                 movementInstructions.Clear();
                 break;
@@ -146,6 +150,7 @@ public class GameManager : MonoBehaviour
       
         // idealy 2 foward , 2 left ,2 left with player facing north  should map to 2 north, 2 west, 2 south.
         movementInstructions.Clear();
+        currentPlayMask = maskType.Null;
         movementInstructions = ConvertCardMoveToBoardMoves(movelist);
 
 

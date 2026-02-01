@@ -5,7 +5,7 @@ using static Card;
 
 
 
-public enum maskType { Bull, Frog, Deer, Bird, Snake };
+public enum maskType { Bull, Frog, Deer, Bird, Snake, Null };
 
 public enum GlobalDirection { North, East, South, West, Up, Down };
 public enum CardDir { Foward, Right, Back,  Left, Up,Down };

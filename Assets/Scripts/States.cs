@@ -114,9 +114,10 @@ public class ProcessingState : State
     {
         Debug.Log("Enter Processing State");
         gameManager.state = GameManagerState.PROCESSING;
+
         gameManager.isProcessingCard = true;
         gameManager.playerpath.Clear();
-        if (gameManager.ProcessingDeer)
+        if (gameManager.currentPlayMask == maskType.Deer)
         {
             List<Chunk> possiblePath = new List<Chunk>();
             var currentPos = gameManager.player.CurrentChunkData.position;
@@ -134,7 +135,7 @@ public class ProcessingState : State
                 ChunkType type = possibleChunk.GetChunkType();
                 if (type == ChunkType.HEDGE || type == ChunkType.AIR_HEDGE)
                 {
-                   // currentPos = possibleChunk.
+                    currentPos = possibleChunk.GetGridIndex();
                     continue;
                 }
                 else
@@ -144,10 +145,16 @@ public class ProcessingState : State
 
             }
 
-           // gameManager.player.Move(possiblePath);
+           gameManager.player.MoveOnPath(possiblePath);
         }
         else
         {
+            List<Chunk> possiblePath = gameManager.board.CheckMovement(gameManager.movementInstructions,gameManager.player.CurrentChunkData.position ) ;
+            possiblePath.RemoveAll(c => c == null);
+
+
+            gameManager.player.MoveOnPath(possiblePath);
+
             //send instsructoins to player to move
         }
     }
@@ -158,6 +165,7 @@ public class ProcessingState : State
     public override void Update()
     {
         Debug.Log("Update Processing State");
+        // check if player has finished moving
     }
 }
 
