@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour
     public bool HasPlayerWon() { return (player.CurrentChunkData.type == ChunkType.GOAL); }
  
     public bool HasPlayerLost() { 
-        if(hand.cardsInHand.Count == 0 && player.CurrentChunkData.type != ChunkType.GOAL)
+        if(player.CurrentChunkData.type != ChunkType.GOAL && (hand.cardsInHand.Count == 0  || player.CurrentChunkData.type == ChunkType.PIT) )
         {
             return true;
         }
