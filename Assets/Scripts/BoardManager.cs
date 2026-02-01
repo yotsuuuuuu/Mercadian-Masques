@@ -97,6 +97,7 @@ public class BoardManager : MonoBehaviour
                     if ((x == 0 || z == 0) || (x == boardSizeX-1 || z == boardSizeZ-1)) // if on edge, make wall
                     {
                         chunk.SetChunkType(ChunkType.WALL);
+                        continue;
                     }
 
                     switch (chunkType)

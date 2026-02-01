@@ -30,8 +30,7 @@ public class Chunk : MonoBehaviour{
 
     private void Start()
     {
-        meshFilter = meshObject.GetComponent<MeshFilter>();
-        meshRenderer = meshObject.GetComponent<MeshRenderer>();
+       
     }
     public Chunk(Vector3 centrePos, ChunkType chunkType)
     {
@@ -57,6 +56,8 @@ public class Chunk : MonoBehaviour{
     public void SetChunkType(ChunkType type_)
     {
         this.chunkType = type_;
+        meshFilter = meshObject.GetComponent<MeshFilter>();
+        meshRenderer = meshObject.GetComponent<MeshRenderer>();
         // set mesh or material based on type
         switch (chunkType)
         {
