@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
 
     bool PlayerCheck() 
     {
+        Debug.Log("PLayer state check");
         Chunk chunkBelowPlayer = board.GetChunkAtPosition(player.CurrentChunkData.position + Vector3Int.down);
         if (player.CurrentChunkData.position.y == 2 && player.FlyingEffectCounter == 0 && chunkBelowPlayer.GetChunkType() != ChunkType.ROCK)
         {

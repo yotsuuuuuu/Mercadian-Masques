@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     {
         if(!IsPlayerMoving && path.Count !=0)
         {
+            Debug.Log("PLayer started moving");
             IsPlayerMoving = true;
             StartCoroutine(MoveAlongThePath(path));
         }

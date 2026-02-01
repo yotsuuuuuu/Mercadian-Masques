@@ -91,7 +91,7 @@ public class IdleState : State
 
     public override void Update()
     {
-        Debug.Log("Update Idle State");
+        
         // idel should check if player has won if not  wait for next card.
 
         // if player has won
@@ -99,10 +99,16 @@ public class IdleState : State
         // if player has has lost
         // call to restart level
         if (gameManager.HasPlayerWon())
+        {
+            Debug.Log("PlayerWon");
             gameManager.LoadNextLevel();
-        
-        if(gameManager.HasPlayerLost())
+        }
+
+        if (gameManager.HasPlayerLost())
+        {
+            Debug.Log("PlayerLost");
             gameManager.ResetLevel();
+        }
     }
 }
 
@@ -165,7 +171,7 @@ public class ProcessingState : State
 
             //send instsructoins to player to move
         }
-
+      
         gameManager.movementInstructions.Clear();
     }
     public override void Exit()
@@ -174,10 +180,14 @@ public class ProcessingState : State
     }
     public override void Update()
     {
-        Debug.Log("Update Processing State");
+        // Debug.Log("Update Processing State");
         // check if player has finished moving
         if (!gameManager.player.IsPlayerMoving)
+        {
+            Debug.Log("PLayer stoped moving");
             gameManager.isProcessingCard = false;
+
+        }
     }
 }
 
