@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
 
     bool PlayerCheck() 
     {
-        Debug.Log("PLayer state check");
+        //Debug.Log("PLayer state check");
         Chunk chunkBelowPlayer = board.GetChunkAtPosition(player.CurrentChunkData.position + Vector3Int.down);
         if (player.CurrentChunkData.position.y == 1 && player.FlyingEffectCounter <= 0 && chunkBelowPlayer.GetChunkType() != ChunkType.ROCK)
         {
@@ -201,8 +201,14 @@ public class GameManager : MonoBehaviour
 
     public void ClearRocksFormPath (List<Chunk> path)
     {
-        // TODO
-        Debug.Log("ClearRocksFormPath Needs to be Implemented");
+          
+        foreach( Chunk chunk in path)
+        {
+            if (chunk.GetChunkType() == ChunkType.ROCK)
+            {
+                chunk.SetChunkType(ChunkType.GROUND);
+            }
+        }
     }
 
     public List<Chunk> ValidatePath(List<Chunk> path)
@@ -267,7 +273,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextLevel() 
     {
-        Debug.Log("Try to Load Next Level");
+        //Debug.Log("Try to Load Next Level");
         int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
         if (nextIndex < SceneManager.sceneCountInBuildSettings)

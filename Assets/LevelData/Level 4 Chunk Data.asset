@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81a8962c924425a4589f6fff4fa9e715, type: 3}
-  m_Name: Level 1 Chunk Data
+  m_Name: Level 4 Chunk Data
   m_EditorClassIdentifier: Assembly-CSharp::LevelDataResource
   chunks:
   - type: 6
     position: {x: 4, y: 0, z: 0}
   - type: 7
-    position: {x: 4, y: 0, z: 5}
+    position: {x: 4, y: 0, z: 8}
+  - type: 5
+    position: {x: 3, y: 0, z: 4}
+  - type: 5
+    position: {x: 5, y: 0, z: 4}
   - type: 4
-    position: {x: 4, y: 0, z: 1}
-  - type: 4
-    position: {x: 4, y: 0, z: 2}
+    position: {x: 4, y: 0, z: 4}

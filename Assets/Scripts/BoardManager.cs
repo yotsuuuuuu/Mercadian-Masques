@@ -140,7 +140,7 @@ public class BoardManager : MonoBehaviour
             position.y < 0 || position.y >= boardActualY ||
             position.z < 0 || position.z >= boardActualZ)
         {
-            Debug.Log("out of bounds");
+            //Debug.Log("out of bounds");
             return null;
         }
         return board[position.x, position.y, position.z];

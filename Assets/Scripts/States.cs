@@ -101,13 +101,13 @@ public class IdleState : State
         // call to restart level
         if (gameManager.HasPlayerWon())
         {
-            Debug.Log("PlayerWon");
+            //Debug.Log("PlayerWon");
             gameManager.LoadNextLevel();
         }
 
         if (gameManager.HasPlayerLost())
         {
-            Debug.Log("PlayerLost");
+            //Debug.Log("PlayerLost");
             gameManager.ResetLevel();
         }
     }
@@ -119,8 +119,8 @@ public class ProcessingState : State
 
     public override void Enter()
     {
-        Debug.Log("Enter Processing State");
-        Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
+        //Debug.Log("Enter Processing State");
+        //Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
         gameManager.state = GameManagerState.PROCESSING;
 
         gameManager.isProcessingCard = true;
@@ -182,7 +182,7 @@ public class ProcessingState : State
     {
         //Debug.Log("Exit Processing State");
 
-        Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
+        //Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
     }
     public override void Update()
     {
@@ -203,15 +203,15 @@ public class CheckPLayerState : State
 
     public override void Enter()
     {
-        Debug.Log("Enter CheckPLayer State");
+        //Debug.Log("Enter CheckPLayer State");
         gameManager.state = GameManagerState.CHECKPLAYER;
-        Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
-        Debug.Log("Player FlyingCounter" + gameManager.player.FlyingEffectCounter.ToString());
+        //Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
+        //Debug.Log("Player FlyingCounter" + gameManager.player.FlyingEffectCounter.ToString());
     }
     public override void Exit()
     {
-        Debug.Log("Exit CheckPLayer State");
-        Debug.Log("Player FlyingCounter" + gameManager.player.FlyingEffectCounter.ToString());
+        //Debug.Log("Exit CheckPLayer State");
+        //Debug.Log("Player FlyingCounter" + gameManager.player.FlyingEffectCounter.ToString());
     }
     public override void Update()
     {

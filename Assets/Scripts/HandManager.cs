@@ -113,14 +113,14 @@ public class HandManager : MonoBehaviour
         {
             gameManager.AddCard(card.GetComponent<Card>().mask);
             RemoveCardFormHand(card_);
-            Debug.Log("mask");
+           // Debug.Log("mask");
             if(card.GetComponent<Card>().mask == maskType.Frog)
             {
                 SoundManager.PlaySound(SoundEffect.Frog);
             }
             else if (card.GetComponent<Card>().mask == maskType.Bull)
             {
-                SoundManager.PlaySound(SoundEffect.Bull);
+                SoundManager.PlaySound(SoundEffect.Bull,0.2f);
             }
             else if (card.GetComponent<Card>().mask == maskType.Snake)
             {
