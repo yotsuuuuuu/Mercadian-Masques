@@ -76,10 +76,14 @@ public class HandManager : MonoBehaviour
     private void UpdateHandVisual()
     {
         int cardCount = cardsInHand.Count;
-        if (cardCount == 0)
+        if (cardCount == 1)
         {
+            Debug.Log("only one card in hand");
+            // set card position
             cardsInHand[0].transform.localRotation = Quaternion.Euler(0, 0, 0);
-            cardsInHand[0].transform.localPosition = new Vector3(0f, 0f, 0f);
+            cardsInHand[0].transform.localPosition = new Vector3(hOFFSET, vspacing+ vOFFSET , 0f);
+            //cardsInHand[0].transform.localPosition = new Vector3(0f, 0f, 0f);
+
             return;
         }
 
