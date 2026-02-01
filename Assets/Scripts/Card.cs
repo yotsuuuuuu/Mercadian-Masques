@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Card;
@@ -25,6 +26,7 @@ public class Card:MonoBehaviour
     [SerializeField]public List<CardMove> cardMovementList;
     [SerializeField] public maskType mask;
     [SerializeField] private GameObject maskImages;
+    
     //public Sprite cardSprite; // not used?
 
 
@@ -73,6 +75,13 @@ public class Card:MonoBehaviour
             maskImages.transform.GetChild(2).gameObject.SetActive(false);
             maskImages.transform.GetChild(3).gameObject.SetActive(false);
         }
+        TMP_Text text;
+        text = GetComponentInChildren<TMP_Text>(true);
+
+        foreach (CardMove move in moves_)
+        {
+            text.text += move.direction + ":" + move.amount + "\n"; 
+         }
     }
 
 }
