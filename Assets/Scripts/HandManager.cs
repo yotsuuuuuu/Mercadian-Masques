@@ -113,11 +113,23 @@ public class HandManager : MonoBehaviour
         {
             gameManager.AddCard(card.GetComponent<Card>().mask);
             Debug.Log("mask");
+            
+            
         }
         if(state_== 4)
         {
             gameManager.AddCard(card.GetComponent<Card>().cardMovement);
             Debug.Log("movement");
         }
+
+       //foreach(GameObject c in cardsInHand)
+       // {
+       //     if(c == card_)
+       //     {
+       //         cardsInHand.Remove(c);
+       //         Destroy(card_);
+       //         UpdateHandVisual();
+       //     }
+       // }
     }
 }
