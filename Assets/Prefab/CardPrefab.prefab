@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 6959724535291783820}
   - component: {fileID: 7442187999996055911}
   - component: {fileID: 4461538816486177702}
+  - component: {fileID: 4149709526481002314}
   m_Layer: 0
   m_Name: CardPrefab
   m_TagString: Untagged
@@ -174,13 +175,27 @@ MonoBehaviour:
   handManager: {fileID: 0}
   hoverLift: 20
   selectScale: 1.1
-  cardPlayY: 300
-  cardPlayX: 327.5
-  boarderX: 1220
-  movePlayPosition: {x: -27, y: 290, z: 0}
-  maskPlayPosition: {x: -688, y: 290, z: 0}
+  cardPlay: {fileID: 0}
+  border: {fileID: 0}
+  movePlayPosition: {fileID: 0}
+  maskPlayPosition: {fileID: 0}
   glowEffect: {fileID: 7816345335311995121}
   lerpFactor: 0.2
+--- !u!114 &4149709526481002314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844380427264827016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9521399fd3fbd4b489c8e3ffb1f5f090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
+  cardMovementList: []
+  mask: 0
+  maskImages: []
 --- !u!1 &7572692255329710344
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +281,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 128
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1507121111303960319
 MonoBehaviour:
   m_ObjectHideFlags: 0
