@@ -4,8 +4,8 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     // 
-    int boardSizeX, boardSizeZ; 
-    int boardSizeY = 2;
+    int boardActualX, boardActualZ; 
+    int boardActualY = 2;
 
     Chunk[,,] board;
 
@@ -67,90 +67,74 @@ public class BoardManager : MonoBehaviour
             return potentialChunks;
     }
 
-    public void Initialize(int[,,] chunkInfoArray, int boardX, int boardY, int boardZ)
+    public void Initialize(int[,,] chunkInfoArray, int boardGivenX, int boardGivenY, int boardGivenZ)
     {
 
         //board = new Chunk[boardSizeX, boardSizeY, boardSizeZ];
-        boardSizeX = boardX;
-        boardSizeY = boardY;
-        boardSizeZ = boardZ;
+        boardActualX = boardGivenX + 2;
+        boardActualY = boardGivenY;
+        boardActualZ = boardGivenZ + 2;
 
-        board = new Chunk[boardSizeX, boardSizeY, boardSizeZ];
+        board = new Chunk[boardActualX, boardActualY, boardActualZ];
 
         //int[,,] chunkInfosArray = new int[boardSizeX, boardSizeY, boardSizeZ];
 
-        for (int y = 0; y < boardSizeY; y++)
+        for (int y = 0; y < boardActualY; y++)
         {
-            for (int x = 0; x < boardSizeX; x++)
+            for (int x = 0; x < boardActualX; x++)
             {
-                for (int z = 0; z < boardSizeZ; z++)
+                for (int z = 0; z < boardActualZ; z++)
                 {
-                    // edit here to set chunk type based on chunkInfosArray
-                    // chunkInfoArray will be empty except for the given chunk types.
-
-
-                    var chunkType = chunkInfoArray[x, y, z];
-                    //if (chunkType == -1) do something; // empty chunks == air
-                    Debug.Log("chunkType:" + chunkType);
                     var chunk = Instantiate(chunkPrefab);
 
-                    if ((x == 0 || z == 0) || (x == boardSizeX-1 || z == boardSizeZ-1)) // if on edge, make wall
+                    if ((x == 0 || z == 0) || (x == boardActualX - 1 || z == boardActualZ - 1)) // if on edge, make wall
                     {
                         chunk.SetChunkType(ChunkType.WALL);
-                        continue;
                     }
-
-                    switch (chunkType)
+                    else
                     {
-                        case 0: // AIR
-                            chunk.SetChunkType(ChunkType.AIR);
-                            break;
-                        case 1: // GROUND
+                        if (y == 0)
+                        {
                             chunk.SetChunkType(ChunkType.GROUND);
-                            break;
-                        case 2: // HEDGE
-                            chunk.SetChunkType(ChunkType.HEDGE);
-                            break;
-                        case 3: // AIR_HEDGE
-                            chunk.SetChunkType(ChunkType.AIR_HEDGE);
-                            break;
-                        case 4: // ROCK
-                            chunk.SetChunkType(ChunkType.ROCK);
-                            break;
-                        case 5: // PIT
-                            chunk.SetChunkType(ChunkType.PIT);
-                            break;
-                        case 6: // START
-                            chunk.SetChunkType(ChunkType.START);
-                            break;
-                        case 7: // GOAL
-                            chunk.SetChunkType(ChunkType.GOAL);
-                            break;
-                        default:
-                            break;
+                        }
+                        else
+                        {
+                            chunk.SetChunkType(ChunkType.AIR);
+                        }
                     }
+
                     // plus one to center the chunk
-                    chunk.SetCentrePos(x+1,y,z+1);
-                    // chunk.SetMesh (maybe do this on set type)
-                    board[x+1, y, z+1] = chunk;
+                    chunk.SetCentrePos(x, y, z);
+                    board[x, y, z] = chunk;
 
-                    //Debug.Log("x:" + x + " y:" + y + " z:" + z);
-
-                    //Chunk chunk = Instantiate(chunkPrefab);
-                    //var chunkInfo = chunk.GetComponents<Chunk>();
-                    //board[x, y, z] = new; // Initialize all to GROUND (0
                 }
 
             }
 
         }
+
+        for (int y = 0; y < boardGivenY; y++)
+        {
+            for (int x = 0; x < boardGivenX; x++)
+            {
+                for (int z = 0; z < boardGivenZ; z++)
+                {
+                    if (chunkInfoArray[x, y, z] != 0)
+                    {
+                        ChunkType type = (ChunkType)chunkInfoArray[x, y, z];
+                        Debug.Log(type);
+                        board[x+1, y, z+1].SetChunkType(type);
+                    }
+                }
+            }
+        }
     }
 
     public Chunk GetChunkAtPosition(Vector3Int position)
     {
-        if (position.x < 0 || position.x >= boardSizeX ||
-            position.y < 0 || position.y >= boardSizeY ||
-            position.z < 0 || position.z >= boardSizeZ)
+        if (position.x < 0 || position.x >= boardActualX ||
+            position.y < 0 || position.y >= boardActualY ||
+            position.z < 0 || position.z >= boardActualZ)
         {
             Debug.Log("out of bounds");
             return null;

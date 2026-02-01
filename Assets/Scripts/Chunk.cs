@@ -32,18 +32,18 @@ public class Chunk : MonoBehaviour{
     {
        
     }
-    public Chunk(Vector3 centrePos, ChunkType chunkType)
+    public Chunk(Vector3 centrePos, ChunkType chunkType_)
     {
         //this.centrePos = centrePos;
-        this.chunkType = chunkType;
+        chunkType = chunkType_;
     }
 
     public void SetCentrePos(int x, int y, int z)
     {
         transform.position = new Vector3(x*chunksize, y*chunksize, z*chunksize);
-        Debug.Log("X:" + x + " Y:" + y + " Z:" + z);
-        Debug.Log("Chunksize:" + chunksize);
-        Debug.Log("Chunk position set to " + transform.position);
+        //Debug.Log("X:" + x + " Y:" + y + " Z:" + z);
+        //Debug.Log("Chunksize:" + chunksize);
+        //Debug.Log("Chunk position set to " + transform.position);
         gridIndex = new Vector3Int(x, y, z);
 
         //if (x == 0 && z == 0)
@@ -55,7 +55,7 @@ public class Chunk : MonoBehaviour{
 
     public void SetChunkType(ChunkType type_)
     {
-        this.chunkType = type_;
+        chunkType = type_;
         meshFilter = meshObject.GetComponent<MeshFilter>();
         meshRenderer = meshObject.GetComponent<MeshRenderer>();
         // set mesh or material based on type
