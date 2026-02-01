@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] public LevelCardDataResource CardsData;
     [SerializeField] public LevelDataResource ChunkData;
     [SerializeField] public GameObject playerObject;
+
+    [SerializeField] public GameObject UImanager;
    
     int boardSizeX = 9; // default values to for the board
     int boardSizeZ = 9;
@@ -49,6 +51,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Player player;
     public BoardManager board { get; private set; }
     private HandManager hand;
+    private UIManager UI;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -57,6 +60,11 @@ public class GameManager : MonoBehaviour
         player = playerObject.GetComponent<Player>();
         board = boardManager.GetComponent<BoardManager>();
         hand = handManager.GetComponent<HandManager>();
+
+        UI = UImanager.GetComponent<UIManager>();
+
+        UI.UpdateMaskImage(maskType.Null); // just setting the UI once
+        UI.UpdateLevelText(1);
 
         hand.AddCardsToHand(PopulateCardData(CardsData.ListOfCards));
         board.Initialize(ArrayofChunks(ChunkData.chunks), boardSizeX, boardSizeY, boardSizeZ);
@@ -123,7 +131,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Queue<KeyValuePair<GlobalDirection, int>> movementInstructions;
     [HideInInspector] public List<Chunk> playerpath;
     [HideInInspector] public maskType currentPlayMask;
-    public void AddCard(maskType mask)
+    public void AddCard(maskType mask) // play card
     {
    
         movementInstructions.Clear();
@@ -164,6 +172,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+        UI.UpdateMaskImage(mask);
         
     }
 
@@ -175,6 +184,7 @@ public class GameManager : MonoBehaviour
         currentPlayMask = maskType.Null;
         movementInstructions = ConvertCardMoveToBoardMoves(movelist);
 
+        UI.UpdateActionText(movelist);
 
     }
 
@@ -279,6 +289,7 @@ public class GameManager : MonoBehaviour
         if (nextIndex < SceneManager.sceneCountInBuildSettings)
         {
             Debug.Log("Loading Next Level");
+            UI.UpdateLevelText(nextIndex);
             SceneManager.LoadScene(nextIndex);
         }
     }
