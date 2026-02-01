@@ -55,7 +55,8 @@ public class GameManager : MonoBehaviour
         
         board = boardManager.GetComponent<BoardManager>();
         hand = handManager.GetComponent<HandManager>();
-        //hand.AddCardsToHand( PopulateCardData(CardsData.ListOfCards));
+
+        hand.AddCardsToHand(PopulateCardData(CardsData.ListOfCards));
         board.Initialize(ArrayofChunks(ChunkData.chunks), boardSizeX, boardSizeY, boardSizeZ);
 
 
@@ -70,9 +71,9 @@ public class GameManager : MonoBehaviour
         
 
         stateMachine.AddTransitions(idel, new TransitonState(() => CardPlayed(), processing));
-        //stateMachine.AddTransitions(idel, new TransitonState(() => !CardPlayed(), idel));
+       
         stateMachine.AddTransitions(processing, new TransitonState(() => !ProcessingCard(), playerState));
-        //stateMachine.AddTransitions(processing, new TransitonState(() => !ProcessingCard(), processing));
+        
         stateMachine.AddTransitions(playerState, new TransitonState(() => PlayerCheck(), idel));
         stateMachine.AddTransitions(playerState, new TransitonState(() => !PlayerCheck(), processing));
     }
@@ -83,10 +84,15 @@ public class GameManager : MonoBehaviour
     {
         stateMachine.Update();
     }
-    // TODO : IMPLEMENT PLAYER CHECK LOGIC
-    // IF  PLAYER 
+
     bool PlayerCheck() 
     {
+        Chunk chunkBelowPlayer = board.GetChunkAtPosition(player.CurrentChunkData.position + Vector3Int.down);
+        if (player.CurrentChunkData.position.y == 2 && player.FlyingEffectCounter == 0 && chunkBelowPlayer.GetChunkType() != ChunkType.ROCK)
+        {
+            movementInstructions.Enqueue(new KeyValuePair<GlobalDirection, int>(GlobalDirection.Down, 1));
+            return false;
+        }
         return true;
     }
     bool ProcessingCard()
@@ -177,6 +183,31 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void ClearRocksFormPath (List<Chunk> path)
+    {
+        // TODO
+    }
+
+    public List<Chunk> ValidatePath(List<Chunk> path)
+    {
+        List<Chunk> validPath = new List<Chunk>();
+        foreach( Chunk chunk in path)
+        {
+            ChunkType type = chunk.GetChunkType();
+            if (type == ChunkType.ROCK || type == ChunkType.HEDGE || type == ChunkType.AIR_HEDGE){
+                break;
+            } else if ( type == ChunkType.PIT){
+                validPath.Add(chunk);
+                break;
+            }else
+            {
+                validPath.Add(chunk);
+            }
+
+        }
+       
+        return path;
+    }
 
     GlobalDirection MaptoRelativetoWorld(GlobalDirection currentDir, CardDir moveDir)
     {

@@ -86,7 +86,7 @@ public class IdleState : State
     }
     public override void Exit()
     {
-        Debug.Log("Exit Idle State");
+        //Debug.Log("Exit Idle State");
     }
 
     public override void Update()
@@ -147,25 +147,37 @@ public class ProcessingState : State
 
            gameManager.player.MoveOnPath(possiblePath);
         }
-        else
+        else if(gameManager.currentPlayMask == maskType.Bull)
         {
-            List<Chunk> possiblePath = gameManager.board.CheckMovement(gameManager.movementInstructions,gameManager.player.CurrentChunkData.position ) ;
+            List<Chunk> possiblePath = gameManager.board.CheckMovement(gameManager.movementInstructions, gameManager.player.CurrentChunkData.position);
             possiblePath.RemoveAll(c => c == null);
 
+            gameManager.ClearRocksFormPath(possiblePath);
+            List<Chunk> finalPath = gameManager.ValidatePath(possiblePath);
+            gameManager.player.MoveOnPath(finalPath);  
+        }
+        else
+        {
+            List<Chunk> possiblePath = gameManager.board.CheckMovement(gameManager.movementInstructions, gameManager.player.CurrentChunkData.position);
+            possiblePath.RemoveAll(c => c == null);
 
-            gameManager.player.MoveOnPath(possiblePath);
+            gameManager.player.MoveOnPath(gameManager.ValidatePath(possiblePath));
 
             //send instsructoins to player to move
         }
+
+        gameManager.movementInstructions.Clear();
     }
     public override void Exit()
     {
-        Debug.Log("Exit Processing State");
+        //Debug.Log("Exit Processing State");
     }
     public override void Update()
     {
         Debug.Log("Update Processing State");
         // check if player has finished moving
+        if (!gameManager.player.IsPlayerMoving)
+            gameManager.isProcessingCard = false;
     }
 }
 
@@ -180,10 +192,10 @@ public class CheckPLayerState : State
     }
     public override void Exit()
     {
-        Debug.Log("Exit CheckPLayer State");
+        //Debug.Log("Exit CheckPLayer State");
     }
     public override void Update()
     {
-        Debug.Log("Update CheckPLayer State");
+       // Debug.Log("Update CheckPLayer State");
     }
 } 
