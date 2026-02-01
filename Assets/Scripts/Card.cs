@@ -37,7 +37,22 @@ public class Card:MonoBehaviour
         {
             maskImages.transform.GetChild(1).gameObject.SetActive(true);
         }
-
+        if (mask == maskType.Snake)
+        {
+            maskImages.transform.GetChild(2).gameObject.SetActive(true);
+        }
+        if (mask == maskType.Bull)
+        {
+            maskImages.transform.GetChild(3).gameObject.SetActive(true);
+        }
+        if (mask == maskType.Bird)
+        {
+            maskImages.transform.GetChild(4).gameObject.SetActive(true);
+        }
+        if (mask == maskType.Deer)
+        {
+            maskImages.transform.GetChild(5).gameObject.SetActive(true);
+        }
     }
 
 }
