@@ -44,12 +44,14 @@ public class BoardManager : MonoBehaviour
                         playerPos.x--;
                         //x--;
                         break;
-                    //case dir.up:
-                    //    playerPos.y++;
-                    //    break;
-                    //case dir.down:
-                    //    playerPos.y--;
-                    //    break;
+                    case GlobalDirection.Up:
+                        playerPos.y++;
+                        //y++;
+                        break;
+                    case GlobalDirection.Down:
+                        playerPos.y--;
+                        //y--;
+                        break;
                     default:
                         break;
                 }

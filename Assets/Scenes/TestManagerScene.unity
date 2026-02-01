@@ -1027,7 +1027,7 @@ MonoBehaviour:
   boardManager: {fileID: 677540359}
   handManager: {fileID: 81974408}
   CardsData: {fileID: 11400000, guid: 5adf1c8648eef7b4ebdeb3a3d765cfe0, type: 2}
-  ChunkData: {fileID: 11400000, guid: 1892fbf2a60a45c46add7173028f0f7c, type: 2}
+  ChunkData: {fileID: 11400000, guid: 08a9c637fa3e04c44aa9bee1b4f0485b, type: 2}
   playerObject: {fileID: 1086190814}
   isProcessingCard: 0
   state: 0
