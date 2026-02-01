@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level 2 Card Data
   m_EditorClassIdentifier: Assembly-CSharp::LevelCardDataResource
   ListOfCards:
-  - maskType: 2
+  - maskType: 0
     moveList:
     - direction: 3
       amount: 1
