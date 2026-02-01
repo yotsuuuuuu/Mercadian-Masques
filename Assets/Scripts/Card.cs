@@ -24,13 +24,20 @@ public class Card:MonoBehaviour
     //[SerializeField] public CardDir direction;
     [SerializeField]public List<CardMove> cardMovementList;
     [SerializeField] public maskType mask;
+    [SerializeField] private GameObject maskImages;
     //public Sprite cardSprite; // not used?
-    public Image[] maskImages;
+
 
     public void SetCard(Queue<CardMove> moves_, maskType mask_)
     {
         cardMovement = moves_;
         mask = mask_;
+
+        if(mask == maskType.Frog)
+        {
+            maskImages.transform.GetChild(1).gameObject.SetActive(true);
+        }
+
     }
 
 }
