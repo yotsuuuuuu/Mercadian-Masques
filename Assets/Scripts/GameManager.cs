@@ -34,31 +34,34 @@ public enum  GameManagerState
 public class GameManager : MonoBehaviour
 {
     private StateMachine stateMachine;
-    public bool isProcessingCard;
     [SerializeField] private GameObject boardManager;
     [SerializeField] private GameObject handManager;
     [SerializeField] public LevelCardDataResource CardsData;
     [SerializeField] public LevelDataResource ChunkData;
-    [SerializeField] public Player player;
+    [SerializeField] public GameObject playerObject;
    
     int boardSizeX = 9; // default values to for the board
     int boardSizeZ = 9;
     int boardSizeY = 2;
 
-    public GameManagerState state;
- 
+    [HideInInspector]public bool isProcessingCard;
+    [HideInInspector]public GameManagerState state;
+    [HideInInspector] public Player player;
     public BoardManager board { get; private set; }
     private HandManager hand;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        movementInstructions = new Queue<KeyValuePair<GlobalDirection, int>>();
+        currentPlayMask = maskType.Null;
+        player = playerObject.GetComponent<Player>();
         board = boardManager.GetComponent<BoardManager>();
         hand = handManager.GetComponent<HandManager>();
 
         hand.AddCardsToHand(PopulateCardData(CardsData.ListOfCards));
         board.Initialize(ArrayofChunks(ChunkData.chunks), boardSizeX, boardSizeY, boardSizeZ);
 
+        SetStartingValuesToPlayer();
 
         isProcessingCard = false;
 
@@ -68,21 +71,30 @@ public class GameManager : MonoBehaviour
         CheckPLayerState playerState = new CheckPLayerState(this);
 
         stateMachine.SetState(idel);
-        
+
 
         stateMachine.AddTransitions(idel, new TransitonState(() => CardPlayed(), processing));
-       
+
         stateMachine.AddTransitions(processing, new TransitonState(() => !ProcessingCard(), playerState));
-        
+
         stateMachine.AddTransitions(playerState, new TransitonState(() => PlayerCheck(), idel));
         stateMachine.AddTransitions(playerState, new TransitonState(() => !PlayerCheck(), processing));
+    }
+
+    private void SetStartingValuesToPlayer()
+    {
+        ChunkLevelData startingChunk = ChunkData.chunks.Find(chunk => chunk.type == ChunkType.START);
+        Vector3Int pos = startingChunk.position;
+        Chunk startChunk = board.GetChunkAtPosition(pos);
+        Vector3 worldpos = startChunk.GetWorldPosition();
+        playerObject.transform.position = worldpos;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        stateMachine.Update();
+       stateMachine.Update();
     }
 
     bool PlayerCheck() 
@@ -104,9 +116,9 @@ public class GameManager : MonoBehaviour
         return movementInstructions.Count != 0 ;
     }
 
-    public Queue<KeyValuePair<GlobalDirection, int>> movementInstructions;
-    public List<Chunk> playerpath;
-    public maskType currentPlayMask = maskType.Null;
+    [HideInInspector] public Queue<KeyValuePair<GlobalDirection, int>> movementInstructions;
+    [HideInInspector] public List<Chunk> playerpath;
+    [HideInInspector] public maskType currentPlayMask;
     public void AddCard(maskType mask)
     {
    
@@ -186,6 +198,7 @@ public class GameManager : MonoBehaviour
     public void ClearRocksFormPath (List<Chunk> path)
     {
         // TODO
+        Debug.Log("ClearRocksFormPath Needs to be Implemented");
     }
 
     public List<Chunk> ValidatePath(List<Chunk> path)

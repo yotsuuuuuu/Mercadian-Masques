@@ -17,3 +17,27 @@ MonoBehaviour:
     moveList:
     - direction: 0
       amount: 1
+  - maskType: 0
+    moveList:
+    - direction: 1
+      amount: 1
+  - maskType: 2
+    moveList:
+    - direction: 3
+      amount: 1
+  - maskType: 3
+    moveList:
+    - direction: 2
+      amount: 1
+  - maskType: 4
+    moveList:
+    - direction: 0
+      amount: 2
+    - direction: 1
+      amount: 2
+    - direction: 2
+      amount: 4
+  - maskType: 2
+    moveList:
+    - direction: 2
+      amount: 6

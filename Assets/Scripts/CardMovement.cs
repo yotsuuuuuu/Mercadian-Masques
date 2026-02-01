@@ -64,17 +64,17 @@ public class CardMovement: MonoBehaviour, IDragHandler, IPointerDownHandler, IPo
                 break;
             case 3:
                 HandleMaskPlayState();
-                handManager.getCardInfo(this.gameObject, currentState);
                 if (!Mouse.current.leftButton.isPressed)
                 {
+                    handManager.getCardInfo(this.gameObject, currentState);
                     TransitionToState0();
                 }
                 break;
             case 4:
                 HandleMovePlayState();
-                handManager.getCardInfo(this.gameObject, currentState);
                 if (!Mouse.current.leftButton.isPressed)
                 {
+                    handManager.getCardInfo(this.gameObject, currentState);
                     TransitionToState0();
                 }
                 break;
@@ -127,8 +127,8 @@ public class CardMovement: MonoBehaviour, IDragHandler, IPointerDownHandler, IPo
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("DRAG Mouse Y Position: " + Mouse.current.position.ReadValue().y);
-        Debug.Log("DRAG Mouse X Position: " + Mouse.current.position.ReadValue().x);
+        //Debug.Log("DRAG Mouse Y Position: " + Mouse.current.position.ReadValue().y);
+        //Debug.Log("DRAG Mouse X Position: " + Mouse.current.position.ReadValue().x);
     
         if (currentState == 2)
         {

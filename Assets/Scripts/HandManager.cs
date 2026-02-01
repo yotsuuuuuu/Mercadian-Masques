@@ -22,16 +22,16 @@ public class HandManager : MonoBehaviour
     private void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
-        cardstest.Add(cardPrefab);
-        cardstest.Add(cardPrefab);
-        cardstest.Add(cardPrefab);
-        cardstest.Add(cardPrefab);
-        cardstest.Add(cardPrefab);
-        cardstest.Add(cardPrefab);
-        cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
+        //cardstest.Add(cardPrefab);
 
 
-        AddCardsToHand(cardstest);
+        //AddCardsToHand(cardstest);
 
     }
 
