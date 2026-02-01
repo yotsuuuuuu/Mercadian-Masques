@@ -9,7 +9,8 @@ public enum ChunkType
     ROCK = 4,
     PIT = 5,
     START = 6,
-    GOAL = 7
+    GOAL = 7,
+    WALL = 8
 }
 
 public class Chunk : MonoBehaviour{
@@ -20,7 +21,18 @@ public class Chunk : MonoBehaviour{
     Vector3Int gridIndex;
     [SerializeField] ChunkType chunkType;
     [SerializeField] GameObject meshObject;
+    [SerializeField] Mesh CubeMesh;
+    [SerializeField] Mesh PlaneMesh;
+    MeshFilter meshFilter;
+    MeshRenderer meshRenderer;
+    [SerializeField] Material[] materials; // materials for different chunk types 
 
+
+    private void Start()
+    {
+        meshFilter = meshObject.GetComponent<MeshFilter>();
+        meshRenderer = meshObject.GetComponent<MeshRenderer>();
+    }
     public Chunk(Vector3 centrePos, ChunkType chunkType)
     {
         //this.centrePos = centrePos;
@@ -46,6 +58,56 @@ public class Chunk : MonoBehaviour{
     {
         this.chunkType = type_;
         // set mesh or material based on type
+        switch (chunkType)
+        {
+            case ChunkType.AIR:
+                //meshObject.SetActive(false);
+                meshRenderer.enabled = false; // set as invisible
+                break;
+            case ChunkType.GOAL: // need to set rat to true
+            case ChunkType.GROUND:
+            case ChunkType.START:
+            case ChunkType.PIT:
+                meshFilter.mesh = PlaneMesh;
+                meshObject.transform.localPosition= new Vector3(0, -2.5f, 0); // set at ground level
+                meshObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // scale to chunk size
+                break;
+            case ChunkType.HEDGE:
+            case ChunkType.AIR_HEDGE:
+            case ChunkType.ROCK:
+            case ChunkType.WALL:
+                meshFilter.mesh = CubeMesh; // set as cube
+                meshObject.transform.localPosition = new Vector3(0, 0, 0); // set at center
+                meshObject.transform.localScale = new Vector3(chunksize,chunksize,chunksize); // scale to chunk size
+                break;
+        }
+
+        switch (chunkType)
+        {
+            case ChunkType.AIR:
+                // do nothing as invisible
+                break;
+            case ChunkType.GROUND:
+                meshRenderer.material = materials[1];
+                break;
+            case ChunkType.HEDGE:
+            case ChunkType.AIR_HEDGE:
+                meshRenderer.material = materials[2];
+                break;
+            case ChunkType.ROCK:
+                meshRenderer.material = materials[3];
+                break;
+            case ChunkType.PIT:
+                meshRenderer.material = materials[4];
+                break;
+            case ChunkType.START:
+            case ChunkType.GOAL:
+                meshRenderer.material = materials[5];
+                break;    
+            case ChunkType.WALL:
+                meshRenderer.material = materials[6];
+                break;
+        }
     }
 
     public Vector3 GetWorldPosition()

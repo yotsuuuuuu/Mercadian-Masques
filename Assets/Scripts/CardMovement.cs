@@ -48,6 +48,7 @@ public class CardMovement: MonoBehaviour, IDragHandler, IPointerDownHandler, IPo
         cardPlay = GameObject.Find("Midpoint");
         border = GameObject.Find("Border");
     }
+
     void Update()
     {
         switch (currentState)

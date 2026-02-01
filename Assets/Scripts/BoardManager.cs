@@ -88,10 +88,17 @@ public class BoardManager : MonoBehaviour
                     // edit here to set chunk type based on chunkInfosArray
                     // chunkInfoArray will be empty except for the given chunk types.
 
+
                     var chunkType = chunkInfoArray[x, y, z];
                     //if (chunkType == -1) do something; // empty chunks == air
                     Debug.Log("chunkType:" + chunkType);
                     var chunk = Instantiate(chunkPrefab);
+
+                    if ((x == 0 || z == 0) || (x == boardSizeX-1 || z == boardSizeZ-1)) // if on edge, make wall
+                    {
+                        chunk.SetChunkType(ChunkType.WALL);
+                    }
+
                     switch (chunkType)
                     {
                         case 0: // AIR
@@ -121,9 +128,10 @@ public class BoardManager : MonoBehaviour
                         default:
                             break;
                     }
-                    chunk.SetCentrePos(x,y,z);
+                    // plus one to center the chunk
+                    chunk.SetCentrePos(x+1,y,z+1);
                     // chunk.SetMesh (maybe do this on set type)
-                    board[x, y, z] = chunk;
+                    board[x+1, y, z+1] = chunk;
 
                     //Debug.Log("x:" + x + " y:" + y + " z:" + z);
 
