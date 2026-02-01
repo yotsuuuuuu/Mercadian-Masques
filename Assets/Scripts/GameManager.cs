@@ -88,13 +88,15 @@ public class GameManager : MonoBehaviour
         Chunk startChunk = board.GetChunkAtPosition(pos);
         Vector3 worldpos = startChunk.GetWorldPosition();
         playerObject.transform.position = worldpos;
+        player.CurrentChunkData.position = pos;
+        player.CurrentChunkData.type = startingChunk.type;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-       //stateMachine.Update();
+       stateMachine.Update();
     }
 
     bool PlayerCheck() 
@@ -277,7 +279,7 @@ public class GameManager : MonoBehaviour
         int[,,] array = new int[boardSizeX, boardSizeY, boardSizeZ];
         for(int i = 0; i < chunks.Count; i++)
         {
-            Vector3Int pos = chunks[i].position;
+            Vector3Int pos = chunks[i].position;   
             array[pos.x, pos.y, pos.z] = (int)chunks[i].type;
         }
 
