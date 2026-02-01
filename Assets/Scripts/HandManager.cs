@@ -112,6 +112,7 @@ public class HandManager : MonoBehaviour
         if (state_ == 3)
         {
             gameManager.AddCard(card.GetComponent<Card>().mask);
+            RemoveCardFormHand(card_);
             Debug.Log("mask");
             if(card.GetComponent<Card>().mask == maskType.Frog)
             {
@@ -140,18 +141,29 @@ public class HandManager : MonoBehaviour
         if (state_== 4)
         {
             gameManager.AddCard(card.GetComponent<Card>().cardMovement);
-            Debug.Log("movement");
+            RemoveCardFormHand(card_);
+            //Debug.Log("movement");
               SoundManager.PlaySound(SoundEffect.Walk);
         }
 
-        //foreach(GameObject c in cardsInHand)
-        // {
-        //     if(c == card_)
-        //     {how would i pl
-        //         cardsInHand.Remove(c);
-        //         Destroy(card_);
-        //         UpdateHandVisual();
-        //     }
-        // }
+    }
+
+
+   void RemoveCardFormHand(GameObject card_)
+    {
+        GameObject tobeDestroyed = null;
+        foreach (GameObject c in cardsInHand)
+        {
+            if (c == card_)
+            {
+                tobeDestroyed = c;
+                cardsInHand.Remove(c);
+                UpdateHandVisual();
+                break;
+            }
+        }
+        
+        if(tobeDestroyed != null)
+            Destroy(tobeDestroyed);
     }
 }

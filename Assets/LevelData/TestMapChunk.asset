@@ -34,10 +34,10 @@ MonoBehaviour:
   - type: 2
     position: {x: 2, y: 0, z: 2}
   - type: 4
-    position: {x: 3, y: 0, z: 2}
+    position: {x: 3, y: 0, z: 1}
   - type: 2
     position: {x: 4, y: 0, z: 2}
   - type: 4
-    position: {x: 6, y: 0, z: 2}
+    position: {x: 6, y: 0, z: 1}
   - type: 5
     position: {x: 7, y: 0, z: 2}

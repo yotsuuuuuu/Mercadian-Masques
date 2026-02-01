@@ -122,7 +122,7 @@ public class BoardManager : MonoBehaviour
                 if (chunkInfoArray[x, 0, z] != 0)
                 {
                     ChunkType type = (ChunkType)chunkInfoArray[x, 0, z];
-                    Debug.Log(type);
+                    //Debug.Log(type);
                     board[x+1, 0, z+1].SetChunkType(type);
                     if (type == ChunkType.HEDGE)
                     {

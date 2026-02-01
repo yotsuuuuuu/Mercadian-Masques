@@ -103,8 +103,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("PLayer state check");
         Chunk chunkBelowPlayer = board.GetChunkAtPosition(player.CurrentChunkData.position + Vector3Int.down);
-        if (player.CurrentChunkData.position.y == 2 && player.FlyingEffectCounter == 0 && chunkBelowPlayer.GetChunkType() != ChunkType.ROCK)
+        if (player.CurrentChunkData.position.y == 1 && player.FlyingEffectCounter <= 0 && chunkBelowPlayer.GetChunkType() != ChunkType.ROCK)
         {
+            player.FlyingEffectCounter = 0; 
             movementInstructions.Enqueue(new KeyValuePair<GlobalDirection, int>(GlobalDirection.Down, 1));
             return false;
         }
@@ -210,7 +211,8 @@ public class GameManager : MonoBehaviour
         foreach( Chunk chunk in path)
         {
             ChunkType type = chunk.GetChunkType();
-            if (type == ChunkType.ROCK || type == ChunkType.HEDGE || type == ChunkType.AIR_HEDGE){
+            if (type == ChunkType.ROCK || type == ChunkType.HEDGE || type == ChunkType.AIR_HEDGE || 
+                type == ChunkType.WALL){
                 break;
             } else if ( type == ChunkType.PIT){
                 validPath.Add(chunk);
@@ -222,7 +224,7 @@ public class GameManager : MonoBehaviour
 
         }
        
-        return path;
+        return validPath;
     }
 
     GlobalDirection MaptoRelativetoWorld(GlobalDirection currentDir, CardDir moveDir)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -119,6 +120,7 @@ public class ProcessingState : State
     public override void Enter()
     {
         Debug.Log("Enter Processing State");
+        Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
         gameManager.state = GameManagerState.PROCESSING;
 
         gameManager.isProcessingCard = true;
@@ -130,7 +132,9 @@ public class ProcessingState : State
             bool isValidMove = true;
             while (isValidMove)
             {
-                possiblePath.AddRange(gameManager.board.CheckMovement(gameManager.movementInstructions, currentPos));
+                Queue<KeyValuePair<GlobalDirection, int>> copy = new Queue<KeyValuePair<GlobalDirection, int>>(gameManager.movementInstructions);
+                List<Chunk> tempPath = gameManager.board.CheckMovement(copy, currentPos);
+                possiblePath.Add(tempPath[0]);
                 Chunk possibleChunk = possiblePath[possiblePath.Count - 1];
                 if (possibleChunk == null || possibleChunk.GetChunkType() == ChunkType.ROCK)
                 {
@@ -177,6 +181,8 @@ public class ProcessingState : State
     public override void Exit()
     {
         //Debug.Log("Exit Processing State");
+
+        Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
     }
     public override void Update()
     {
@@ -199,10 +205,13 @@ public class CheckPLayerState : State
     {
         Debug.Log("Enter CheckPLayer State");
         gameManager.state = GameManagerState.CHECKPLAYER;
+        Debug.Log("Player Current Facing Direction: " + gameManager.player.currentDir.ToString());
+        Debug.Log("Player FlyingCounter" + gameManager.player.FlyingEffectCounter.ToString());
     }
     public override void Exit()
     {
-        //Debug.Log("Exit CheckPLayer State");
+        Debug.Log("Exit CheckPLayer State");
+        Debug.Log("Player FlyingCounter" + gameManager.player.FlyingEffectCounter.ToString());
     }
     public override void Update()
     {

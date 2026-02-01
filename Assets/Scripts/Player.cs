@@ -20,8 +20,9 @@ public class Player : MonoBehaviour
     {
         if(!IsPlayerMoving && path.Count !=0)
         {
-            Debug.Log("PLayer started moving");
+            
             IsPlayerMoving = true;
+            //DebugPrintPath(path);
             StartCoroutine(MoveAlongThePath(path));
         }
     }
@@ -47,8 +48,7 @@ public class Player : MonoBehaviour
                 if (index >= path.Count)
                     break;
 
-                targetChunk = path[index];
-
+                targetChunk = path[index];                
                 UpdateRotation(targetChunk, CurrentChunkData.position);
             }
 
@@ -57,6 +57,15 @@ public class Player : MonoBehaviour
         IsPlayerMoving = false;
     }
 
+    private void DebugPrintPath(List<Chunk> path)
+    {
+        foreach (Chunk chunk in path)
+        {
+            Vector3Int pos = chunk.GetGridIndex();
+            Debug.Log("Path Chunk Position: " + pos.ToString());
+            Debug.Log("Path Chunk Type: " + chunk.GetChunkType().ToString());
+        }
+    }
     private void UpdateRotation(Chunk targetChunk, Vector3Int position)
     {
         Vector3Int targetIndexPos = targetChunk.GetGridIndex();
@@ -69,7 +78,28 @@ public class Player : MonoBehaviour
 
         if (worldDirection == Vector3.zero)
             return;
-
+        currentDir = VectorToWorldDirection(directionIndexVector);
         transform.rotation = Quaternion.LookRotation(worldDirection);
+    }
+
+
+    private GlobalDirection VectorToWorldDirection(Vector3Int dir)
+    {
+        // Ignore vertical movement if any
+        dir.y = 0;
+
+        if (dir == Vector3Int.forward)   // (0, 0, 1)
+            return GlobalDirection.North;
+
+        if (dir == Vector3Int.back)      // (0, 0, -1)
+            return GlobalDirection.South;
+
+        if (dir == Vector3Int.right)     // (1, 0, 0)
+            return GlobalDirection.East;
+
+        if (dir == Vector3Int.left)      // (-1, 0, 0)
+            return GlobalDirection.West;
+
+        throw new System.ArgumentException("Invalid direction vector: " + dir);
     }
 }
