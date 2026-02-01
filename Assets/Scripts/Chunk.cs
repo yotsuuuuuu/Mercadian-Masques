@@ -103,8 +103,10 @@ public class Chunk : MonoBehaviour{
                 meshRenderer.material = materials[4];
                 break;
             case ChunkType.START:
-            case ChunkType.GOAL:
                 meshRenderer.material = materials[5];
+                break;
+            case ChunkType.GOAL:
+                meshRenderer.material = materials[7];
                 break;    
             case ChunkType.WALL:
                 meshRenderer.material = materials[6];
