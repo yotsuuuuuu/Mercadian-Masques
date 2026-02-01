@@ -10,36 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4987c1e45ce020d46bbdd1e024d650eb, type: 3}
-  m_Name: Level 4 Card Data
+  m_Name: Level 5 Card Data
   m_EditorClassIdentifier: Assembly-CSharp::LevelCardDataResource
   ListOfCards:
   - maskType: 0
     moveList:
-    - direction: 1
-      amount: 1
+    - direction: 0
+      amount: 2
   - maskType: 0
     moveList:
-    - direction: 3
-      amount: 1
-  - maskType: 1
-    moveList:
-    - direction: 3
-      amount: 1
-  - maskType: 1
-    moveList:
     - direction: 0
-      amount: 1
-    - direction: 3
-      amount: 1
-  - maskType: 2
-    moveList:
-    - direction: 0
-      amount: 4
-    - direction: 3
-      amount: 3
-    - direction: 2
       amount: 2
   - maskType: 4
     moveList:
     - direction: 3
+      amount: 1
+    - direction: 1
+      amount: 1
+  - maskType: 4
+    moveList:
+    - direction: 1
+      amount: 1
+    - direction: 3
+      amount: 1
+  - maskType: 1
+    moveList:
+    - direction: 2
       amount: 2

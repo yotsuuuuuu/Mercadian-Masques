@@ -13,31 +13,19 @@ MonoBehaviour:
   m_Name: Level 1 Card Data
   m_EditorClassIdentifier: Assembly-CSharp::LevelCardDataResource
   ListOfCards:
-  - maskType: 1
-    moveList:
-    - direction: 0
-      amount: 1
   - maskType: 0
     moveList:
-    - direction: 1
-      amount: 1
-  - maskType: 2
-    moveList:
     - direction: 3
+      amount: 1
+  - maskType: 1
+    moveList:
+    - direction: 1
       amount: 1
   - maskType: 3
     moveList:
     - direction: 2
       amount: 1
-  - maskType: 4
+  - maskType: 2
     moveList:
     - direction: 0
       amount: 2
-    - direction: 1
-      amount: 2
-    - direction: 2
-      amount: 4
-  - maskType: 2
-    moveList:
-    - direction: 2
-      amount: 6

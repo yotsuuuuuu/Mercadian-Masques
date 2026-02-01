@@ -705,8 +705,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   boardManager: {fileID: 2067950305}
   handManager: {fileID: 2071552256}
-  CardsData: {fileID: 11400000, guid: 35184979c52428648b0c5b1cd230e206, type: 2}
-  ChunkData: {fileID: 11400000, guid: 8208fd3ffacc83749811a95bda36e1a3, type: 2}
+  CardsData: {fileID: 11400000, guid: 57508d2804496ba4192f6541d9c53bd1, type: 2}
+  ChunkData: {fileID: 11400000, guid: 5037d1c74dfd63e4ba0721a176d12313, type: 2}
   playerObject: {fileID: 879612479}
   isProcessingCard: 0
   state: 0
