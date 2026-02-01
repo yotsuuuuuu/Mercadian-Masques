@@ -15,6 +15,9 @@ public class CardMovement: MonoBehaviour, IDragHandler, IPointerDownHandler, IPo
     private Quaternion originalRotation;
     private Vector3 originalPosition;
 
+    [SerializeField] private HandManager handManager;
+
+    [SerializeField] private float hoverLift = 20f;
     [SerializeField] private float selectScale = 1.1f;
     [SerializeField] private float cardPlayY;
     [SerializeField] private float cardMoveX;
@@ -161,6 +164,8 @@ public class CardMovement: MonoBehaviour, IDragHandler, IPointerDownHandler, IPo
         rectTransform.localPosition = Vector3.Lerp(rectTransform.localPosition, maskPlayPosition, lerpFactor);
         rectTransform.localRotation = Quaternion.identity;  // reset to 0
 
+        Debug.Log("MASK Mouse X Position: " + Mouse.current.position.ReadValue().x);
+
         if (Mouse.current.position.ReadValue().y < cardPlayY)
         {
             currentState = 2; // back to drag state
@@ -177,6 +182,9 @@ public class CardMovement: MonoBehaviour, IDragHandler, IPointerDownHandler, IPo
     {
         rectTransform.localPosition = Vector3.Lerp(rectTransform.localPosition, movePlayPosition, lerpFactor);
         rectTransform.localRotation = Quaternion.identity;  // reset to 0
+
+        Debug.Log("MOVE Mouse X Position: " + Mouse.current.position.ReadValue().x);
+
         if (Mouse.current.position.ReadValue().y < cardPlayY)
         {
             currentState = 2; // back to drag state
